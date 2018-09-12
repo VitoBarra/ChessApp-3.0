@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{89730261-1FBC-44CA-B224-66AA5CF85A37}</ProjectGuid>
+    <ProjectGuid>{F6DFD5A4-EFB8-4934-BC24-ED0430EAFD52}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>ChessApp_3._0</RootNamespace>
     <AssemblyName>ChessApp 3.0</AssemblyName>

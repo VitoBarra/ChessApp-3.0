@@ -41,16 +41,16 @@
             this.label3 = new System.Windows.Forms.Label();
             this.GameModeComboBox = new System.Windows.Forms.ComboBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.tabPage3 = new System.Windows.Forms.TabPage();
             this.Browserbutton = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
             this.PythonPathTextBox = new System.Windows.Forms.TextBox();
             this.tabControl1.SuspendLayout();
+            this.tabPage3.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
-            this.tabPage3.SuspendLayout();
             this.SuspendLayout();
             // 
             // DimentionSquareTextBox
@@ -192,6 +192,18 @@
             this.tabControl1.Size = new System.Drawing.Size(311, 137);
             this.tabControl1.TabIndex = 9;
             // 
+            // tabPage3
+            // 
+            this.tabPage3.Controls.Add(this.PythonPathTextBox);
+            this.tabPage3.Controls.Add(this.label5);
+            this.tabPage3.Controls.Add(this.Browserbutton);
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Size = new System.Drawing.Size(303, 111);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "Generale";
+            this.tabPage3.UseVisualStyleBackColor = true;
+            // 
             // tabPage1
             // 
             this.tabPage1.Controls.Add(this.DifficultyBCombo);
@@ -220,18 +232,6 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Aspetto";
             this.tabPage2.UseVisualStyleBackColor = true;
-            // 
-            // tabPage3
-            // 
-            this.tabPage3.Controls.Add(this.PythonPathTextBox);
-            this.tabPage3.Controls.Add(this.label5);
-            this.tabPage3.Controls.Add(this.Browserbutton);
-            this.tabPage3.Location = new System.Drawing.Point(4, 22);
-            this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(303, 111);
-            this.tabPage3.TabIndex = 2;
-            this.tabPage3.Text = "Generale";
-            this.tabPage3.UseVisualStyleBackColor = true;
             // 
             // Browserbutton
             // 
@@ -270,15 +270,15 @@
             this.Controls.Add(this.ApplicaButton);
             this.Controls.Add(this.OKButton);
             this.Name = "OptionForm";
-            this.Text = "Option";
+            this.Text = "4";
             this.Load += new System.EventHandler(this.OptionForm_Load);
             this.tabControl1.ResumeLayout(false);
+            this.tabPage3.ResumeLayout(false);
+            this.tabPage3.PerformLayout();
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
-            this.tabPage3.ResumeLayout(false);
-            this.tabPage3.PerformLayout();
             this.ResumeLayout(false);
 
         }

@@ -21,7 +21,7 @@ namespace ChessApp_3._0
 
         bool clickdStart = false;
         bool clickdReset = false;
-
+        ChessEngine engine;
         static string chesspath = FindPath() + "\\ChessApp 3.0";
       
 
@@ -52,6 +52,7 @@ namespace ChessApp_3._0
         {
             Global.Conf = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
 
+            
 
             Global.width_Height = int.Parse(Global.Conf.AppSettings.Settings["Dimension"].Value);
             Global.SvgBitMap = LoadSvg();
@@ -134,13 +135,13 @@ namespace ChessApp_3._0
         private void GameModeSelector(object sender, EventArgs e)
         {
             if (sender == PlayerVsPlayerGameMode)
-                Global.Conf.AppSettings.Settings["GameMode"].Value = "\\Player_vs_Player.py";
+                Global.Conf.AppSettings.Settings["GameMode"].Value = "";
             else if (sender == PlayWhitWhiteGameMode)
-                Global.Conf.AppSettings.Settings["GameMode"].Value = "\\Play_With_White.py";
+                Global.Conf.AppSettings.Settings["GameMode"].Value = "";
             else if (sender == PlayWhitBlackGameMode)
-                Global.Conf.AppSettings.Settings["GameMode"].Value = "\\Play_With_Black.py";
+                Global.Conf.AppSettings.Settings["GameMode"].Value = "";
             else if (sender == AiVsAiGameMode)
-                Global.Conf.AppSettings.Settings["GameMode"].Value = "\\Ai_vs_Ai.py";
+                Global.Conf.AppSettings.Settings["GameMode"].Value = "";
             Global.Conf.Save(ConfigurationSaveMode.Modified);
         }
         private void DifficultyWSelector(object sender, EventArgs e)
@@ -203,6 +204,7 @@ namespace ChessApp_3._0
                  {0,0,0,0,0,0,0,0 },
                  {-1,-1,-1,-1,-1,-1,-1,-1 },
                  {-4,-3,-2,-6,-5,-2,-3,-4 } };
+            engine = new ChessEngine(Global.boardCod);
             //----------------------------------board AREA----------------------------------
 
             for (int i = 0; i < 8; i++)
@@ -287,7 +289,7 @@ namespace ChessApp_3._0
         #region ----------------------track----------------------
         private void TrackBackButton_Click(object sender, EventArgs e)
         {
-            PythonPass.Trackback = true;
+          
         }
 
         private void TrackForwardButton_Click(object sender, EventArgs e)
@@ -445,90 +447,6 @@ namespace ChessApp_3._0
         public static string MoveW = "";
         public static string MoveB = "";
         public static string[] movePgn = new string[1000];
-    }
-
-    public class PythonPass
-    {
-        public static bool Trackback = false;
-
-
-
-        public void BildPiceOnBoard(string pyboardSt)
-        {
-            int[,] num = new int[8, 8];
-            for (int i = 0; i < 16; i += 2)
-                for (int j = 0; j < 16; j += 2)
-                {
-                    string numSt = pyboardSt.Substring(i * 8 + j, 2);
-                    num[i / 2, j / 2] = int.Parse(numSt);
-                }
-            for (int i = 0; i < 8; i++)
-                for (int j = 0; j < 8; j++)
-                    Global.boardCod[i, j] = num[i, j];
-
-            Form1.RenderPiceOnboard();
-        }
-
-
-        public string Mossa()
-        {
-            string k = Global.clickStr;
-            Global.clickStr = "";
-
-            return k;
-        }
-
-        #region -------------------utilitys------------------
-
-
-        public bool TrackBackValue()
-        {
-            bool temp = Trackback;
-            Trackback = false;
-            return temp;
-        }
-
-        public int[] Difficulty()
-        {
-            int[] temp = new int[2];
-
-            temp[0] = int.Parse(Global.Conf.AppSettings.Settings["DifficultyWhiteAi"].Value);
-            temp[1] = int.Parse(Global.Conf.AppSettings.Settings["DifficultyBlackAi"].Value);
-            return temp;
-        }
-
-
-        public void WhiteMove(string moveW)
-        {
-            Global.MoveW = moveW;
-            Global.movePgn[Global.countStr] = Form1.ConvertNumberToPgn(moveW);
-            Global.countStr++;
-        }
-        public void BlackMove(string moveB)
-        {
-            Global.MoveB = moveB;
-            Global.movePgn[Global.countStr] = Form1.ConvertNumberToPgn(moveB);
-            Global.countStr++;
-        }
-
-        #endregion
-
-        #region ------------------end game-----------------
-        public void CheckMate(string winner)
-        {
-            MessageBox.Show("CheckMate!!\nwinner " + winner);
-        }
-        public void DrawByRepetition()
-        {
-            MessageBox.Show("Pareggio per ripetizione");
-        }
-        public void StaleMate()
-        {
-            MessageBox.Show("Stallo!");
-        }
-        #endregion
-
-
     }
 }
 

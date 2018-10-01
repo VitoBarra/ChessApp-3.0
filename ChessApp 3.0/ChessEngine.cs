@@ -64,13 +64,13 @@ namespace ChessApp_3._0
 
         public void BishopMove(int yBoard, int xBoard)
         {
-            for (int y = yBoard+1, x = xBoard+1; y < 8 && x < 8; y++, x++)
-                bitBoard[y, x] ++;
-            for (int y = yBoard-1, x = xBoard-1; y >= 0 && x >= 0; y--, x--)
-                bitBoard[y, x] ++;
-            for (int y = yBoard-1, x = xBoard+1; y >= 0 && x < 8; y--, x++)
+            for (int y = yBoard + 1, x = xBoard + 1; y < 8 && x < 8; y++, x++)
                 bitBoard[y, x]++;
-            for (int y = yBoard+1, x = xBoard-1; y < 8 && x >= 0; y++, x--)
+            for (int y = yBoard - 1, x = xBoard - 1; y >= 0 && x >= 0; y--, x--)
+                bitBoard[y, x]++;
+            for (int y = yBoard - 1, x = xBoard + 1; y >= 0 && x < 8; y--, x++)
+                bitBoard[y, x]++;
+            for (int y = yBoard + 1, x = xBoard - 1; y < 8 && x >= 0; y++, x--)
                 bitBoard[y, x]++;
         }
 
@@ -99,30 +99,30 @@ namespace ChessApp_3._0
             if (yBoard < 7)
             {
                 if (xBoard < 6)
-                    bitBoard[yBoard + 1, xBoard + 2] += 1;
+                    bitBoard[yBoard + 1, xBoard + 2]++;
                 if (xBoard > 1)
-                    bitBoard[yBoard + 1, xBoard - 2] += 1;
+                    bitBoard[yBoard + 1, xBoard - 2]++;
             }
             if (yBoard < 6)
             {
                 if (xBoard < 7)
-                    bitBoard[yBoard + 2, xBoard + 1] += 1;
+                    bitBoard[yBoard + 2, xBoard + 1]++;
                 if (xBoard > 1)
-                    bitBoard[yBoard + 2, xBoard - 1] += 1;
+                    bitBoard[yBoard + 2, xBoard - 1]++;
             }
             if (yBoard > 0)
             {
                 if (xBoard < 6)
-                    bitBoard[yBoard - 1, xBoard + 2] += 1;
+                    bitBoard[yBoard - 1, xBoard + 2]++;
                 if (xBoard > 1)
-                    bitBoard[yBoard - 1, xBoard - 2] += 1;
+                    bitBoard[yBoard - 1, xBoard - 2]++;
             }
             if (yBoard > 1)
             {
                 if (xBoard < 7)
-                    bitBoard[yBoard - 2, xBoard + 1] += 1;
+                    bitBoard[yBoard - 2, xBoard + 1]++;
                 if (xBoard > 0)
-                    bitBoard[yBoard - 2, xBoard - 1] += 1;
+                    bitBoard[yBoard - 2, xBoard - 1]++;
             }
 
         }

@@ -58,11 +58,6 @@ namespace ChessApp_3._0
             Global.SvgBitMap = LoadSvg();
             Global.ThemeW = Global.Conf.AppSettings.Settings["ThemeW"].Value;
             Global.ThemeB = Global.Conf.AppSettings.Settings["ThemeB"].Value;
-            while (Global.Conf.AppSettings.Settings["PythonPath"].Value == "")
-            {
-                OptionForm option = new OptionForm();
-                option.ShowDialog();
-            }
             this.Width = Global.width_Height * 8 + 15 + TurnCount.Width + WhiteMove.Width + BlackMove.Width;
             this.Height = Global.width_Height * 8 + Global.width_Height + 39;
 
@@ -193,18 +188,30 @@ namespace ChessApp_3._0
         {
             int offset = 0;
             int pixelPice = Global.width_Height;
+            if (Global.Player)
+                Global.boardCod = new int[8, 8]
+                {{-4,-3,-2,-6,-5,-2,-3,-4 },
+                { -1,-1,-1,-1,-1,-1,-1,-1 },
+                { 0,0,0,0,0,0,0,0 },
+                { 0,0,0,0,0,0,0,0 },
+                { 0,0,0,0,0,0,0,0 },
+                { 0,0,0,0,0,0,0,0 },
+                { 1,1,1,1,1,1,1,1 },
+                { 4,3,2,6,5,2,3,4 }};
+            else
+                Global.boardCod = new int[8, 8]
+                {{4,3,2,6,5,2,3,4 },
+                {1,1,1,1,1,1,1,1 },
+                {0,0,0,0,0,0,0,0 },
+                {0,0,0,0,0,0,0,0 },
+                {0,0,0,0,0,0,0,0 },
+                {0,0,0,0,0,0,0,0 },
+                {-1,-1,-1,-1,-1,-1,-1,-1 },
+                {-4,-3,-2,-6,-5,-2,-3,-4 }};
+            engine = new ChessEngine(Global.boardCod);
+
             if (Global.board == null)
                 Global.board = new Board[8, 8];
-            Global.boardCod = new int[8, 8]
-               {{4,3,2,6,5,2,3,4 },
-                 {1,1,1,1,1,1,1,1 },
-                 {0,0,0,0,0,0,0,0 },
-                 {0,0,0,0,0,0,0,0 },
-                 {0,0,0,0,0,0,0,0 },
-                 {0,0,0,0,0,0,0,0 },
-                 {-1,-1,-1,-1,-1,-1,-1,-1 },
-                 {-4,-3,-2,-6,-5,-2,-3,-4 } };
-            engine = new ChessEngine(Global.boardCod);
             //----------------------------------board AREA----------------------------------
 
             for (int i = 0; i < 8; i++)
@@ -281,7 +288,7 @@ namespace ChessApp_3._0
         }
 
 
-        public static string FindPath() => Directory.GetParent(Directory.GetParent(Directory.GetParent(Directory.GetCurrentDirectory()).ToString()).ToString()).ToString();
+        // public static string FindPath() => Directory.GetParent(Directory.GetParent(Directory.GetParent(Directory.GetCurrentDirectory()).ToString()).ToString()).ToString();
 
         #endregion
 
@@ -299,7 +306,7 @@ namespace ChessApp_3._0
         #endregion
 
 
-
+         public static string FindPath() => Directory.GetParent(Directory.GetParent(Directory.GetParent(Directory.GetCurrentDirectory()).ToString()).ToString()).ToString();
 
         private void Refras(object sender, System.Timers.ElapsedEventArgs e)
         {
@@ -434,13 +441,11 @@ namespace ChessApp_3._0
         public static string ThemeW;
         public static string ThemeB;
         public static Configuration Conf;
-        //public static StreamReader FileReader;
-        //public static StreamWriter FileWriter;
         public static Bitmap[] SvgBitMap;
         public static int width_Height = 50;
         public static Board[,] board;
         public static int[,] boardCod;
-        public static bool Player = false;
+        public static bool Player = true;
         public static bool clicked = false;
         public static bool MoveBool = true;
         public static string clickStr = "";

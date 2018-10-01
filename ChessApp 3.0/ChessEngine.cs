@@ -10,8 +10,18 @@ namespace ChessApp_3._0
     {
         int[,] BoardCode;
         int[,] BitBoard;
+        
+        //BitBoard = new int[8, 8] 
+        //    { { 0,0,0,0,0,0,0,0 },
+        //    { 0,0,0,0,0,0,0,0 },
+        //    { 0,0,0,0,0,0,0,0 },
+        //    { 0,0,0,0,0,0,0,0 },
+        //    { 0,0,0,0,0,0,0,0 },
+        //    { 0,0,0,0,0,0,0,0 },
+        //    { 0,0,0,0,0,0,0,0 },
+        //    { 0,0,0,0,0,0,0,0 }};
 
-        public ChessEngine(int[,] _boardCode)
+    public ChessEngine(int[,] _boardCode)
         {
             BoardCode = _boardCode;
         }
@@ -23,15 +33,7 @@ namespace ChessApp_3._0
 
         public void ToweMove(int yBoard, int xBoard)
         {
-            BitBoard = new int[8, 8] 
-            { { 0,0,0,0,0,0,0,0 },
-            { 0,0,0,0,0,0,0,0 },
-            { 0,0,0,0,0,0,0,0 },
-            { 0,0,0,0,0,0,0,0 },
-            { 0,0,0,0,0,0,0,0 },
-            { 0,0,0,0,0,0,0,0 },
-            { 0,0,0,0,0,0,0,0 },
-            { 0,0,0,0,0,0,0,0 }};
+
 
 
             for (int y = yBoard; y < 8; y++)

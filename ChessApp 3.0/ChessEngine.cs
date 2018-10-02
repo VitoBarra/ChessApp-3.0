@@ -9,17 +9,9 @@ namespace ChessApp_3._0
 {
     public class ChessEngine
     {
-        int[,] boardcode =
-            { { 0,0,0,0,0,0,0,0 },
-            { 0,0,0,0,0,0,0,0 },
-            { 0,0,0,0,0,0,0,0 },
-            { 0,0,0,0,0,0,0,0 },
-            { 0,0,0,0,0,0,0,0 },
-            { 0,0,0,0,0,0,0,0 },
-            { 0,0,0,0,0,0,0,0 },
-            { 0,0,0,0,0,0,0,0 }};
+        int[,] boardcode;
         int[,] bitboard =
-            { { 0,0,0,0,0,0,0,0 },
+          { { 0,0,0,0,0,0,0,0 },
             { 0,0,0,0,0,0,0,0 },
             { 0,0,0,0,0,0,0,0 },
             { 0,0,0,0,0,0,0,0 },
@@ -27,35 +19,37 @@ namespace ChessApp_3._0
             { 0,0,0,0,0,0,0,0 },
             { 0,0,0,0,0,0,0,0 },
             { 0,0,0,0,0,0,0,0 }};
-
-        //int[,] bitboardforwblack =
-        //    { { 0,0,0,0,0,0,0,0 },
-        //    { 0,0,0,0,0,0,0,0 },
-        //    { 0,0,0,0,0,0,0,0 },
-        //    { 0,0,0,0,0,0,0,0 },
-        //    { 0,0,0,0,0,0,0,0 },
-        //    { 0,0,0,0,0,0,0,0 },
-        //    { 0,0,0,0,0,0,0,0 },
-        //    { 0,0,0,0,0,0,0,0 }};
-
-
 
 
         public ChessEngine(int[,] _boardcode)
         {
             boardcode = _boardcode;
+            loadDebug();
+        }
+
+
+        void loadDebug()
+        {
+            // BitBoardGenerator(true);
             RookMove(4, 5);
             StampaBitBoard();
         }
 
+
+
+
+
+        void CanMove() { }
+
+
         void StampaBitBoard()
         {
             string bitboardStr = "";
-            for (int x = 0; x < 8; x++)
+            for (int y = 0; y < 8; y++)
             {
-                for (int y = 0; y < 8; y++)
+                for (int x = 0; x < 8; x++)
                 {
-                    bitboardStr += bitboard[x, y].ToString() + " ";
+                    bitboardStr += bitboard[y, x].ToString() + " ";
                 }
                 bitboardStr += "\n";
             }
@@ -65,171 +59,62 @@ namespace ChessApp_3._0
         }
 
 
-
-
-        public void bit_board_generation(bool isblack)
+        public void BitBoardGenerator(bool iswhite)
         {
-
-            int piece_for_bit;
-            if (!isblack)
-            {
-                for (int index1 = 0, index2 = 0; index1 < 8 && index2 < 8; index1++, index2++)
+            for (int y = 0; y < 8; y++)
+                for (int x = 0; x < 8; x++)
                 {
-                        piece_for_bit = bitboard[index1, index2];
-                        if (piece_for_bit > 0)
-                        {
-                            // fai lo switch qui
-                        }
+                    switch (boardcode[y, x])
+                    {
+                        case 0: break;
+                        case 1: break;
+                        case -1: break;
+                        case 4: RookMove(y, x); break;
+                        case -4: break;
+                        case 3: KnightMove(y, x); break;
+                        case -3: break;
+                        case 2: BishopMove(y, x); break;
+                        case -2: break;
+                        case 5: QueenMove(y, x); break;
+                        case -5: break;
+                        case 6: break;
+                        case -6: break;
                     }
-            }
-            
-            
-
-
-
-
-
+                }
         }
 
-
-        public void bitboardUpdate()
-        {
-
-        }
 
 
         #region ---------------------------------------PieceMove---------------------------------------
-        //public void RookMove(int yBoard, int xBoard)
-        //{
-        //    for (int y = yBoard; y < 8; y++)
-        //    {
-        //        if (bitboard[y, xBoard] == 0)
-        //            bitboard[y, xBoard]++;
-        //    }
-        //    for (int y = yBoard; y > 0; y--)
-        //    {
-        //        if (bitboard[y, xBoard] == 0)
-        //            bitboard[y, xBoard]++;
-        //    }
-        //    for (int x = xBoard; x < 8; x++)
-        //    {
-        //        if (bitboard[yBoard, x] == 0)
-        //            bitboard[yBoard, x]++;
-        //    }
-        //    for (int x = xBoard; x > 0; x--)
-        //    {
-        //        if (bitboard[yBoard, x] == 0)
-        //            bitboard[yBoard, x]++;
-        //    }
-
-        //}
-
-        public void PawnMoveWhite(int yBoard, int xBoard)
-        {
-            if (xBoard != 0)
-            {
-                bitboard[yBoard - 1, xBoard - 1]++;
-            }
-
-            if (xBoard != 7)
-            {
-                bitboard[yBoard - 1, xBoard + 1]++;
-            }
-        }
-
-        public void PawnMoveBlack(int yBoard, int xBoard)
-        {
-            if (xBoard != 0)
-            {
-                bitboard[yBoard + 1, xBoard - 1]++;
-            }
-
-            if (xBoard != 7)
-            {
-                bitboard[yBoard + 1, xBoard + 1]++;
-            }
-        }
-
-        public void KingMove(int yBoard, int xBoard)
-        {
-            if (yBoard != 0)
-            {
-                if (xBoard != 0)
-                {
-                    bitboard[yBoard - 1, xBoard - 1]++;
-                }
-                if (xBoard != 7)
-                {
-                    bitboard[yBoard - 1, xBoard + 1]++;
-
-                }
-                bitboard[yBoard - 1, xBoard]++;
-            }
-            if (yBoard != 7)
-            {
-
-                if (xBoard != 0)
-                {
-                    bitboard[yBoard + 1, xBoard - 1]++;
-                }
-                if (xBoard != 7)
-                {
-                    bitboard[yBoard + 1, xBoard + 1]++;
-
-                }
-                bitboard[yBoard + 1, xBoard]++;
-            }
-
-            if (xBoard != 0) bitboard[yBoard, xBoard - 1]++;
-            if (xBoard != 7) bitboard[yBoard, xBoard + 1]++;
-
-
-        }
-
         public void RookMove(int yBoard, int xBoard)
         {
             for (int y = yBoard + 1; y < 8; y++)
-            {
                 if (boardcode[y, xBoard] != 0)
                 {
                     bitboard[y, xBoard]++;
                     break;
                 }
-                if (y == 5)
-                {
-                    MessageBox.Show("HEy I'm here");
-                }
-                bitboard[y, xBoard]++;
-            }
+
             for (int y = yBoard - 1; y >= 0; y--)
-            {
                 if (boardcode[y, xBoard] != 0)
                 {
                     bitboard[y, xBoard]++;
                     break;
                 }
-                bitboard[y, xBoard]++;
-            }
 
             for (int x = xBoard + 1; x < 8; x++)
-            {
                 if (boardcode[yBoard, x] != 0)
                 {
                     bitboard[yBoard, x]++;
                     break;
                 }
-                bitboard[yBoard, x]++;
-            }
 
             for (int x = xBoard - 1; x >= 0; x--)
-            {
                 if (boardcode[yBoard, x] != 0)
                 {
                     bitboard[yBoard, x]++;
                     break;
                 }
-                bitboard[yBoard, x]++;
-            }
         }
 
         public void BishopMove(int yBoard, int xBoard)
@@ -299,45 +184,69 @@ namespace ChessApp_3._0
             }
 
         }
-        #endregion
 
-
-
-
-
-
-        public void MoveGenerator()
+        public void PawnMoveWhite(int yBoard, int xBoard)
         {
-            for (int y = 0, x = 0; y< 8 && x < 8; y++, x++)
-                
+            if (xBoard != 0)
+            {
+                bitboard[yBoard - 1, xBoard - 1]++;
+            }
+
+            if (xBoard != 7)
+            {
+                bitboard[yBoard - 1, xBoard + 1]++;
+            }
+        }
+
+        public void PawnMoveBlack(int yBoard, int xBoard)
+        {
+            if (xBoard != 0)
+            {
+                bitboard[yBoard + 1, xBoard - 1]++;
+            }
+
+            if (xBoard != 7)
+            {
+                bitboard[yBoard + 1, xBoard + 1]++;
+            }
+        }
+
+        public void KingMove(int yBoard, int xBoard)
+        {
+            if (yBoard != 0)
+            {
+                if (xBoard != 0)
                 {
-                    switch (boardcode[y, x])
-                    {
-                        case 1: break;
-                        case -1: break;
-                        case 4: RookMove(y, x); break;
-                        case -4:  break;
-                        case 3: break;
-                        case -3: break;
-                        case 2: break;
-                        case -2:  break;
-                        case 5: break;
-                        case -5:  break;
-                        case 6:  break;
-                        case -6:  break;
-                    }
-
-
-
-
+                    bitboard[yBoard - 1, xBoard - 1]++;
+                }
+                if (xBoard != 7)
+                {
+                    bitboard[yBoard - 1, xBoard + 1]++;
 
                 }
-        }
-        public  void GenerateTree()
-        {
+                bitboard[yBoard - 1, xBoard]++;
+            }
+            if (yBoard != 7)
+            {
+
+                if (xBoard != 0)
+                {
+                    bitboard[yBoard + 1, xBoard - 1]++;
+                }
+                if (xBoard != 7)
+                {
+                    bitboard[yBoard + 1, xBoard + 1]++;
+
+                }
+                bitboard[yBoard + 1, xBoard]++;
+            }
+
+            if (xBoard != 0) bitboard[yBoard, xBoard - 1]++;
+            if (xBoard != 7) bitboard[yBoard, xBoard + 1]++;
+
 
         }
-        
+        #endregion
 
 
     }

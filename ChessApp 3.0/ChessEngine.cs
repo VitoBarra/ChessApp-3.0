@@ -89,31 +89,43 @@ namespace ChessApp_3._0
         public void RookMove(int yBoard, int xBoard)
         {
             for (int y = yBoard + 1; y < 8; y++)
+            {
                 if (boardcode[y, xBoard] != 0)
                 {
                     bitboard[y, xBoard]++;
                     break;
                 }
+                bitboard[y, xBoard]++;
+            }
 
-            for (int y = yBoard - 1; y >= 0; y--)
+                for (int y = yBoard - 1; y >= 0; y--)
+            {
                 if (boardcode[y, xBoard] != 0)
                 {
                     bitboard[y, xBoard]++;
                     break;
                 }
+                bitboard[y, xBoard]++;
+            }
 
             for (int x = xBoard + 1; x < 8; x++)
                 if (boardcode[yBoard, x] != 0)
                 {
+                    {
+                        bitboard[yBoard, x]++;
+                        break;
+                    }
                     bitboard[yBoard, x]++;
-                    break;
                 }
 
-            for (int x = xBoard - 1; x >= 0; x--)
+               for (int x = xBoard - 1; x >= 0; x--)
                 if (boardcode[yBoard, x] != 0)
                 {
+                    {
+                        bitboard[yBoard, x]++;
+                        break;
+                    }
                     bitboard[yBoard, x]++;
-                    break;
                 }
         }
 

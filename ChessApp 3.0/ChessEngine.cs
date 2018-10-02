@@ -66,7 +66,7 @@ namespace ChessApp_3._0
                     {
                         case 1: break;
                         case -1: break;
-                        case 4: ToweMove(y, x); break;
+                        case 4: RookMove(y, x); break;
                         case -4: break;
                         case 3: KnightMove(y, x); break;
                         case -3: break;
@@ -83,7 +83,7 @@ namespace ChessApp_3._0
 
 
         #region ---------------------------------------PiceMove---------------------------------------
-        public void ToweMove(int yBoard, int xBoard)
+        public void RookMove(int yBoard, int xBoard)
         {
             for (int y = yBoard + 1; y < 8; y++)
                 if (boardCode[y, xBoard] != 0)
@@ -117,7 +117,7 @@ namespace ChessApp_3._0
         public void BishopMove(int yBoard, int xBoard)
         {
             for (int y = yBoard + 1, x = xBoard + 1; y < 8 && x < 8; y++, x++)
-                if (boardCode[y, x] != 0) 
+                if (boardCode[y, x] != 0)
                 {
                     bitBoard[y, x]++;
                     break;
@@ -143,9 +143,9 @@ namespace ChessApp_3._0
                 }
         }
 
-        public void QueenMove(int yBoard, int xBoard) 
+        public void QueenMove(int yBoard, int xBoard)
         {
-            ToweMove(yBoard,xBoard);
+            ToweMove(yBoard, xBoard);
             BishopMove(yBoard, xBoard);
         }
 
@@ -186,5 +186,5 @@ namespace ChessApp_3._0
 
 
 
-        }
+    }
 }

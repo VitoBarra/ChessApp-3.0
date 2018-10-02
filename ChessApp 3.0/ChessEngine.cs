@@ -108,25 +108,25 @@ namespace ChessApp_3._0
                 bitboard[y, xBoard]++;
             }
 
-            for (int x = xBoard + 1; x < 8; x++)
+            for (int x = xBoard + 1; x < 8; x++) { 
                 if (boardcode[yBoard, x] != 0)
                 {
-                    {
                         bitboard[yBoard, x]++;
                         break;
                     }
                     bitboard[yBoard, x]++;
                 }
 
-               for (int x = xBoard - 1; x >= 0; x--)
+            for (int x = xBoard - 1; x >= 0; x--)
+            {
                 if (boardcode[yBoard, x] != 0)
+
                 {
-                    {
-                        bitboard[yBoard, x]++;
-                        break;
-                    }
                     bitboard[yBoard, x]++;
+                    break;
                 }
+                bitboard[yBoard, x]++;
+            }
         }
 
         public void BishopMove(int yBoard, int xBoard)

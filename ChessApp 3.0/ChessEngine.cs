@@ -8,30 +8,37 @@ using System.Threading.Tasks;
 namespace ChessApp_3._0
 {
     public class ChessEngine
-    {
-        int[,] boardcode;
-        int[,] bitboard =
-          { { 0,0,0,0,0,0,0,0 },
-            { 0,0,0,0,0,0,0,0 },
-            { 0,0,0,0,0,0,0,0 },
-            { 0,0,0,0,0,0,0,0 },
-            { 0,0,0,0,0,0,0,0 },
-            { 0,0,0,0,0,0,0,0 },
-            { 0,0,0,0,0,0,0,0 },
-            { 0,0,0,0,0,0,0,0 }};
+    {                                 
+        int[,] boardcode;             
+        int[,] bitboard =             
+          { { 0,0,0,0,0,0,0,0 },      
+            { 0,0,0,0,0,0,0,0 },      
+            { 0,0,0,0,0,0,0,0 },      
+            { 0,0,0,0,0,0,0,0 },      
+            { 0,0,0,0,0,0,0,0 },      
+            { 0,0,0,0,0,0,0,0 },      
+            { 0,0,0,0,0,0,0,0 },      
+            { 0,0,0,0,0,0,0,0 }};     
+                                      
 
 
         public ChessEngine(int[,] _boardcode)
         {
             boardcode = _boardcode;
             loadDebug();
+            byte x = 2;
+            int y = -5;
+            y = y - x;
+            MessageBox.Show(y.ToString());
         }
 
 
         void loadDebug()
         {
-            // BitBoardGenerator(true);
-            RookMove(4, 5);
+            BitBoardGenerator(false);
+            StampaBitBoard();
+
+            // for (int useless = 0; useless < 10000000; useless++) BitBoardGenerator(true);
             StampaBitBoard();
         }
 
@@ -61,26 +68,50 @@ namespace ChessApp_3._0
 
         public void BitBoardGenerator(bool iswhite)
         {
-            for (int y = 0; y < 8; y++)
-                for (int x = 0; x < 8; x++)
-                {
-                    switch (boardcode[y, x])
+            bitboard = new int[,]
+            { { 0,0,0,0,0,0,0,0 },
+            { 0,0,0,0,0,0,0,0 },
+            { 0,0,0,0,0,0,0,0 },
+            { 0,0,0,0,0,0,0,0 },
+            { 0,0,0,0,0,0,0,0 },
+            { 0,0,0,0,0,0,0,0 },
+            { 0,0,0,0,0,0,0,0 },
+            { 0,0,0,0,0,0,0,0 }};
+
+            if (iswhite)
+            {
+                for (int y = 0; y < 8; y++)
+                    for (int x = 0; x < 8; x++)
                     {
-                        case 0: break;
-                        case 1: break;
-                        case -1: break;
-                        case 4: RookMove(y, x); break;
-                        case -4: break;
-                        case 3: KnightMove(y, x); break;
-                        case -3: break;
-                        case 2: BishopMove(y, x); break;
-                        case -2: break;
-                        case 5: QueenMove(y, x); break;
-                        case -5: break;
-                        case 6: break;
-                        case -6: break;
+                        switch (boardcode[y, x])
+                        {
+                            case 0: break;
+                            case 1: PawnMoveWhite(y, x); break;
+                            case 4: RookMove(y, x); break;
+                            case 3: KnightMove(y, x); break;
+                            case 2: BishopMove(y, x); break;
+                            case 5: QueenMove(y, x); break;
+                            case 6: KingMove(y, x); break;
+                        }
                     }
-                }
+            }
+            else
+            {
+                for (int y = 0; y < 8; y++)
+                    for (int x = 0; x < 8; x++)
+                    {
+                        switch (boardcode[y, x])
+                        {
+                            case 0: break;
+                            case -1: PawnMoveBlack(y, x); break;
+                            case -4: RookMove(y, x); break;
+                            case -3: KnightMove(y, x); break;
+                            case -2: BishopMove(y, x); break;
+                            case -5: QueenMove(y, x); break;
+                            case -6: KingMove(y, x); break;
+                        }
+                    }
+            }
         }
 
 
@@ -132,30 +163,42 @@ namespace ChessApp_3._0
         public void BishopMove(int yBoard, int xBoard)
         {
             for (int y = yBoard + 1, x = xBoard + 1; y < 8 && x < 8; y++, x++)
+            {
                 if (boardcode[y, x] != 0)
                 {
                     bitboard[y, x]++;
                     break;
                 }
-            for (int y = yBoard - 1, x = xBoard - 1; y >= 0 && x >= 0; y--, x--)
+                bitboard[y, x]++;
+            }
+                for (int y = yBoard - 1, x = xBoard - 1; y >= 0 && x >= 0; y--, x--)
+            {
                 if (boardcode[y, x] != 0)
                 {
                     bitboard[y, x]++;
                     break;
                 }
+                bitboard[y, x]++;
+            }
 
             for (int y = yBoard - 1, x = xBoard + 1; y >= 0 && x < 8; y--, x++)
+            {
                 if (boardcode[y, x] != 0)
                 {
                     bitboard[y, x]++;
                     break;
                 }
+                bitboard[y, x]++;
+            }
             for (int y = yBoard + 1, x = xBoard - 1; y < 8 && x >= 0; y++, x--)
+            {
                 if (boardcode[y, x] != 0)
                 {
                     bitboard[y, x]++;
                     break;
                 }
+                bitboard[y, x]++;
+            }
         }
 
         public void QueenMove(int yBoard, int xBoard)

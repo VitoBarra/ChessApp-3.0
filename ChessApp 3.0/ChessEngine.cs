@@ -257,6 +257,7 @@ namespace ChessApp_3._0
             if (xBoard != 7) bitboard[yBoard, xBoard + 1]++;
 
 
+
         }
         #endregion
 

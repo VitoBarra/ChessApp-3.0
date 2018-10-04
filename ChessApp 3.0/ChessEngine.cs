@@ -33,18 +33,18 @@ namespace ChessApp_3._0
             { 0,0,0,0,0,0,0,0 }};
 
 
-
-
-
-
-
-
-
-
-        public ChessEngine(int[,] _boardCode)
+        public ChessEngine(int[,] _boardcode)
         {
-            boardCode = _boardCode;
-            LoadDebug();
+            boardcode = _boardcode;
+            loadDebug();
+        }
+
+
+        void loadDebug()
+        {
+            // BitBoardGenerator(true);
+            RookMove(4, 5);
+            StampaBitBoard();
         }
 
 
@@ -69,26 +69,29 @@ namespace ChessApp_3._0
         }
         void StampaBitBoard()
         {
-            string bitBoardStr = "";
+            string bitboardStr = "";
             for (int y = 0; y < 8; y++)
             {
                 for (int x = 0; x < 8; x++)
                 {
-                    bitBoardStr += bitBoard[y, x].ToString() + " ";
+                    bitboardStr += bitboard[y, x].ToString() + " ";
                 }
-                bitBoardStr += "\n";
+                bitboardStr += "\n";
             }
 
-            MessageBox.Show(bitBoardStr);
+            MessageBox.Show(bitboardStr);
 
         }
-        public void BitBoardGenerator()
+
+
+        public void BitBoardGenerator(bool iswhite)
         {
             for (int y = 0; y < 8; y++)
                 for (int x = 0; x < 8; x++)
                 {
-                    switch (boardCode[y, x])
+                    switch (boardcode[y, x])
                     {
+                        case 0: break;
                         case 1: break;
                         case -1: break;
                         case 4: RookMove(y, x); break;
@@ -104,6 +107,21 @@ namespace ChessApp_3._0
                     }
                 }
         }
+
+
+
+        #region ---------------------------------------PieceMove---------------------------------------
+        public void RookMove(int yBoard, int xBoard)
+        {
+            for (int y = yBoard + 1; y < 8; y++)
+            {
+                if (boardcode[y, xBoard] != 0)
+                {
+                    bitboard[y, xBoard]++;
+                    break;
+                }
+                bitboard[y, xBoard]++;
+            }
 
 
 
@@ -137,6 +155,27 @@ namespace ChessApp_3._0
                     bitBoard[yBoard, x]++;
                     break;
                 }
+        }
+
+            for (int x = xBoard + 1; x < 8; x++) { 
+                if (boardcode[yBoard, x] != 0)
+                {
+                        bitboard[yBoard, x]++;
+                        break;
+                    }
+                    bitboard[yBoard, x]++;
+                }
+
+            for (int x = xBoard - 1; x >= 0; x--)
+            {
+                if (boardcode[yBoard, x] != 0)
+
+                {
+                    bitboard[yBoard, x]++;
+                    break;
+                }
+                bitboard[yBoard, x]++;
+            }
         }
 
         public void BishopMove(int yBoard, int xBoard)
@@ -179,9 +218,9 @@ namespace ChessApp_3._0
             if (yBoard < 7)
             {
                 if (xBoard < 6)
-                    bitBoard[yBoard + 1, xBoard + 2]++;
+                    bitboard[yBoard + 1, xBoard + 2]++;
                 if (xBoard > 1)
-                    bitBoard[yBoard + 1, xBoard - 2]++;
+                    bitboard[yBoard + 1, xBoard - 2]++;
             }
             if (yBoard < 6)
             {
@@ -193,22 +232,83 @@ namespace ChessApp_3._0
             if (yBoard > 0)
             {
                 if (xBoard < 6)
-                    bitBoard[yBoard - 1, xBoard + 2]++;
+                    bitboard[yBoard - 1, xBoard + 2]++;
                 if (xBoard > 1)
-                    bitBoard[yBoard - 1, xBoard - 2]++;
+                    bitboard[yBoard - 1, xBoard - 2]++;
             }
             if (yBoard > 1)
             {
                 if (xBoard < 7)
-                    bitBoard[yBoard - 2, xBoard + 1]++;
+                    bitboard[yBoard - 2, xBoard + 1]++;
                 if (xBoard > 0)
-                    bitBoard[yBoard - 2, xBoard - 1]++;
+                    bitboard[yBoard - 2, xBoard - 1]++;
             }
 
         }
+
+        public void PawnMoveWhite(int yBoard, int xBoard)
+        {
+            if (xBoard != 0)
+            {
+                bitboard[yBoard - 1, xBoard - 1]++;
+            }
+
+            if (xBoard != 7)
+            {
+                bitboard[yBoard - 1, xBoard + 1]++;
+            }
+        }
+
+        public void PawnMoveBlack(int yBoard, int xBoard)
+        {
+            if (xBoard != 0)
+            {
+                bitboard[yBoard + 1, xBoard - 1]++;
+            }
+
+            if (xBoard != 7)
+            {
+                bitboard[yBoard + 1, xBoard + 1]++;
+            }
+        }
+
+        public void KingMove(int yBoard, int xBoard)
+        {
+            if (yBoard != 0)
+            {
+                if (xBoard != 0)
+                {
+                    bitboard[yBoard - 1, xBoard - 1]++;
+                }
+                if (xBoard != 7)
+                {
+                    bitboard[yBoard - 1, xBoard + 1]++;
+
+                }
+                bitboard[yBoard - 1, xBoard]++;
+            }
+            if (yBoard != 7)
+            {
+
+                if (xBoard != 0)
+                {
+                    bitboard[yBoard + 1, xBoard - 1]++;
+                }
+                if (xBoard != 7)
+                {
+                    bitboard[yBoard + 1, xBoard + 1]++;
+
+                }
+                bitboard[yBoard + 1, xBoard]++;
+            }
+
+            if (xBoard != 0) bitboard[yBoard, xBoard - 1]++;
+            if (xBoard != 7) bitboard[yBoard, xBoard + 1]++;
+
+
+
+        }
         #endregion
-
-
 
 
     }

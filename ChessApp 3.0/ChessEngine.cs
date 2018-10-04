@@ -9,6 +9,18 @@ namespace ChessApp_3._0
 {
     public class ChessEngine
     {
+        class MoveCode
+        {
+            public byte xPartenza = 8;
+            public byte yPartenza = 8;
+            public byte xArrivo = 8;
+            public byte yArrivo = 8;
+
+            public bool cattura = false;
+            public byte promozione = 0;
+            public byte arrocco = 0;
+        } 
+
         int[,] boardCode;
         int[,] bitBoard =
           { { 0,0,0,0,0,0,0,0 },
@@ -21,17 +33,30 @@ namespace ChessApp_3._0
             { 0,0,0,0,0,0,0,0 }};
 
 
+
+
+
+
+
+
+
+
         public ChessEngine(int[,] _boardCode)
         {
             boardCode = _boardCode;
-            loadDebug();
+            LoadDebug();
         }
 
 
-        void loadDebug()
+        void LoadDebug()
         {
-            BitBoardGenerator();
-            StampaBitBoard();
+            MoveCode culo = new MoveCode { };
+
+           
+
+            MessageBox.Show(culo.arrocco.ToString());
+            //BitBoardGenerator();
+            //StampaBitBoard();
         }
 
 
@@ -145,7 +170,7 @@ namespace ChessApp_3._0
 
         public void QueenMove(int yBoard, int xBoard)
         {
-            ToweMove(yBoard, xBoard);
+            RookMove(yBoard, xBoard);
             BishopMove(yBoard, xBoard);
         }
 

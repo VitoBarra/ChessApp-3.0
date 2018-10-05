@@ -8,7 +8,20 @@ using System.Threading.Tasks;
 namespace ChessApp_3._0
 {
     public class ChessEngine
-    {                                 
+    {
+        class MoveCode
+        {
+            public byte xPartenza = 8;
+            public byte yPartenza = 8;
+            public byte xArrivo = 8;
+            public byte yArrivo = 8;
+
+            public bool cattura = false;
+            public byte promozione = 0;
+            public byte arrocco = 0;
+        }
+
+
         int[,] boardcode;             
         int[,] bitboard =             
           { { 0,0,0,0,0,0,0,0 },      
@@ -18,32 +31,75 @@ namespace ChessApp_3._0
             { 0,0,0,0,0,0,0,0 },      
             { 0,0,0,0,0,0,0,0 },      
             { 0,0,0,0,0,0,0,0 },      
-            { 0,0,0,0,0,0,0,0 }};     
-                                      
+            { 0,0,0,0,0,0,0,0 }};
+
+        MoveCode[] mosse = new MoveCode[100];
+        int indexmossa = 0;
 
 
         public ChessEngine(int[,] _boardcode)
         {
             boardcode = _boardcode;
             loadDebug();
-            byte x = 2;
-            int y = -5;
-            y = y - x;
-            MessageBox.Show(y.ToString());
         }
+
+
+        
 
 
         void loadDebug()
         {
-            BitBoardGenerator(false);
-            StampaBitBoard();
+            int kingx = 0;
+            int kingy = 0;
+            BitBoardGenerator(true, ref kingx, ref kingy);
 
-            // for (int useless = 0; useless < 10000000; useless++) BitBoardGenerator(true);
+            kingx = 4;
+            kingy = 4;
+
+            KingMoveReal((byte)(kingx), (byte)(kingy), true);
+
+            MessageBox.Show("Starting");
+            for (int useless = 0; useless < 100000000; useless++) {
+                KingMoveReal((byte)(kingx), (byte)(kingy), true);
+                indexmossa = 0;
+
+                    }
+            MessageBox.Show("Finished");
             StampaBitBoard();
         }
 
 
+        public void GenerazioneMosse(bool iswhite)
+        {
+            if (iswhite)
+            {
+                int kingx = 0;
+                int kingy = 0;
+                BitBoardGenerator(true, ref kingx, ref kingy);
+                
 
+
+                if (boardcode[kingy, kingx] > 1)
+                {
+
+                    
+
+
+                }
+                else
+                {
+
+
+
+                }
+
+
+
+
+
+
+            }
+        }
 
 
         void CanMove() { }
@@ -66,7 +122,7 @@ namespace ChessApp_3._0
         }
 
 
-        public void BitBoardGenerator(bool iswhite)
+        public void BitBoardGenerator(bool iswhite, ref int kingex, ref int kingey)
         {
             bitboard = new int[,]
             { { 0,0,0,0,0,0,0,0 },
@@ -91,7 +147,7 @@ namespace ChessApp_3._0
                             case 3: KnightMove(y, x); break;
                             case 2: BishopMove(y, x); break;
                             case 5: QueenMove(y, x); break;
-                            case 6: KingMove(y, x); break;
+                            case 6: KingMove(y, x); kingex = x; kingey = y; break;
                         }
                     }
             }
@@ -108,7 +164,7 @@ namespace ChessApp_3._0
                             case -3: KnightMove(y, x); break;
                             case -2: BishopMove(y, x); break;
                             case -5: QueenMove(y, x); break;
-                            case -6: KingMove(y, x); break;
+                            case -6: KingMove(y, x); kingex = x; kingey = y; break;
                         }
                     }
             }
@@ -304,6 +360,266 @@ namespace ChessApp_3._0
         }
         #endregion
 
+
+        #region-------------------------------------MOSSE PER GENERAZIONE REALE------------------------------------------
+
+        public void KingMoveReal(byte yBoard, byte xBoard, bool iswhite)
+        {
+            if (iswhite)
+            {
+                MoveCode mossa;
+                if (yBoard != 0)
+                {
+                    if (bitboard[yBoard - 1, xBoard] == 0 && boardcode[yBoard - 1, xBoard] <= 0)
+                    {
+
+                        mossa = new MoveCode();
+                        if (boardcode[yBoard - 1, xBoard] != 0) mossa.cattura = true;
+                        mossa.xPartenza = xBoard;
+                        mossa.yPartenza = yBoard;
+                        mossa.xArrivo = xBoard;
+                        mossa.yArrivo = (byte)(yBoard - 1);
+                        mosse[indexmossa] = mossa;
+                        indexmossa++;
+                    }
+                    if (xBoard != 0)
+                    {
+                        if (bitboard[yBoard - 1, xBoard - 1] == 0 && boardcode[yBoard - 1, xBoard - 1] <= 0)
+                        {
+                            mossa = new MoveCode();
+                            if (boardcode[yBoard - 1, xBoard - 1] != 0) mossa.cattura = true;
+                            mossa.xPartenza = xBoard;
+                            mossa.yPartenza = yBoard;
+                            mossa.xArrivo = (byte)(xBoard - 1);
+                            mossa.yArrivo = (byte)(yBoard - 1);
+                            mosse[indexmossa] = mossa;
+                            indexmossa++;
+                        }
+                    }
+                    if (xBoard != 7)
+                    {
+                        if (bitboard[yBoard - 1, xBoard + 1] == 0 && boardcode[yBoard - 1, xBoard + 1] <= 0)
+                        {
+                            mossa = new MoveCode();
+                            if (boardcode[yBoard - 1, xBoard + 1] != 0) mossa.cattura = true;
+                            mossa.xPartenza = xBoard;
+                            mossa.yPartenza = yBoard;
+                            mossa.xArrivo = (byte)(xBoard + 1);
+                            mossa.yArrivo = (byte)(yBoard - 1);
+                            mosse[indexmossa] = mossa;
+                            indexmossa++;
+                        }
+                    }
+                }
+
+                if (yBoard != 7)
+                {
+                    if (bitboard[yBoard + 1, xBoard] == 0 && boardcode[yBoard + 1, xBoard] <= 0)
+                    {
+                        mossa = new MoveCode();
+                        if (boardcode[yBoard + 1, xBoard] != 0) mossa.cattura = true;
+                        mossa.xPartenza = xBoard;
+                        mossa.yPartenza = yBoard;
+                        mossa.xArrivo = xBoard;
+                        mossa.yArrivo = (byte)(yBoard + 1);
+                        mosse[indexmossa] = mossa;
+                        indexmossa++;
+                    }
+                    if (xBoard != 0)
+                    {
+                        if (bitboard[yBoard + 1, xBoard - 1] == 0 && boardcode[yBoard + 1, xBoard - 1] <= 0)
+                        {
+                            mossa = new MoveCode();
+                            if (boardcode[yBoard + 1, xBoard - 1] != 0) mossa.cattura = true;
+                            mossa.xPartenza = xBoard;
+                            mossa.yPartenza = yBoard;
+                            mossa.xArrivo = (byte)(xBoard - 1);
+                            mossa.yArrivo = (byte)(yBoard + 1);
+                            mosse[indexmossa] = mossa;
+                            indexmossa++;
+                        }
+                    }
+                    if (xBoard != 7)
+                    {
+                        if (bitboard[yBoard + 1, xBoard + 1] == 0 && boardcode[yBoard + 1, xBoard + 1] <= 0)
+                        {
+                            mossa = new MoveCode();
+                            if (boardcode[yBoard + 1, xBoard + 1] != 0) mossa.cattura = true;
+                            mossa.xPartenza = xBoard;
+                            mossa.yPartenza = yBoard;
+                            mossa.xArrivo = (byte)(xBoard + 1);
+                            mossa.yArrivo = (byte)(yBoard + 1);
+                            mosse[indexmossa] = mossa;
+                            indexmossa++;
+                        }
+                    }
+
+
+
+
+
+                }
+
+                if (xBoard != 0)
+                {
+                    if (bitboard[yBoard, xBoard - 1] == 0 && boardcode[yBoard, xBoard - 1] <= 0)
+                    {
+                        mossa = new MoveCode();
+                        if (boardcode[yBoard, xBoard - 1] != 0) mossa.cattura = true;
+                        mossa.xPartenza = xBoard;
+                        mossa.yPartenza = yBoard;
+                        mossa.xArrivo = (byte)(xBoard - 1);
+                        mossa.yArrivo = yBoard;
+                        mosse[indexmossa] = mossa;
+                        indexmossa++;
+                    }
+                }
+
+                if (xBoard != 7)
+                {
+                    if (bitboard[yBoard, xBoard + 1] == 0 && boardcode[yBoard, xBoard + 1] <= 0)
+                    {
+                        mossa = new MoveCode();
+                        if (boardcode[yBoard, xBoard + 1] != 0) mossa.cattura = true;
+                        mossa.xPartenza = xBoard;
+                        mossa.yPartenza = yBoard;
+                        mossa.xArrivo = (byte)(xBoard + 1);
+                        mossa.yArrivo = yBoard;
+                        mosse[indexmossa] = mossa;
+                        indexmossa++;
+                    }
+                }
+            }
+            else
+            {
+                MoveCode mossa;
+                if (yBoard != 0)
+                {
+                    if (bitboard[yBoard - 1, xBoard] == 0 && boardcode[yBoard - 1, xBoard] >= 0)
+                    {
+
+                        mossa = new MoveCode();
+                        if (boardcode[yBoard - 1, xBoard] != 0) mossa.cattura = true;
+                        mossa.xPartenza = xBoard;
+                        mossa.yPartenza = yBoard;
+                        mossa.xArrivo = xBoard;
+                        mossa.yArrivo = (byte)(yBoard - 1);
+                        mosse[indexmossa] = mossa;
+                        indexmossa++;
+                    }
+                    if (xBoard != 0)
+                    {
+                        if (bitboard[yBoard - 1, xBoard - 1] == 0 && boardcode[yBoard - 1, xBoard - 1] >= 0)
+                        {
+                            mossa = new MoveCode();
+                            if (boardcode[yBoard - 1, xBoard - 1] != 0) mossa.cattura = true;
+                            mossa.xPartenza = xBoard;
+                            mossa.yPartenza = yBoard;
+                            mossa.xArrivo = (byte)(xBoard - 1);
+                            mossa.yArrivo = (byte)(yBoard - 1);
+                            mosse[indexmossa] = mossa;
+                            indexmossa++;
+                        }
+                    }
+                    if (xBoard != 7)
+                    {
+                        if (bitboard[yBoard - 1, xBoard + 1] == 0 && boardcode[yBoard - 1, xBoard + 1] >= 0)
+                        {
+                            mossa = new MoveCode();
+                            if (boardcode[yBoard - 1, xBoard + 1] != 0) mossa.cattura = true;
+                            mossa.xPartenza = xBoard;
+                            mossa.yPartenza = yBoard;
+                            mossa.xArrivo = (byte)(xBoard + 1);
+                            mossa.yArrivo = (byte)(yBoard - 1);
+                            mosse[indexmossa] = mossa;
+                            indexmossa++;
+                        }
+                    }
+                }
+
+                if (yBoard != 7)
+                {
+                    if (bitboard[yBoard + 1, xBoard] == 0 && boardcode[yBoard + 1, xBoard] >= 0)
+                    {
+                        mossa = new MoveCode();
+                        if (boardcode[yBoard + 1, xBoard] != 0) mossa.cattura = true;
+                        mossa.xPartenza = xBoard;
+                        mossa.yPartenza = yBoard;
+                        mossa.xArrivo = xBoard;
+                        mossa.yArrivo = (byte)(yBoard + 1);
+                        mosse[indexmossa] = mossa;
+                        indexmossa++;
+                    }
+                    if (xBoard != 0)
+                    {
+                        if (bitboard[yBoard + 1, xBoard - 1] == 0 && boardcode[yBoard + 1, xBoard - 1] >= 0)
+                        {
+                            mossa = new MoveCode();
+                            if (boardcode[yBoard + 1, xBoard - 1] != 0) mossa.cattura = true;
+                            mossa.xPartenza = xBoard;
+                            mossa.yPartenza = yBoard;
+                            mossa.xArrivo = (byte)(xBoard - 1);
+                            mossa.yArrivo = (byte)(yBoard + 1);
+                            mosse[indexmossa] = mossa;
+                            indexmossa++;
+                        }
+                    }
+                    if (xBoard != 7)
+                    {
+                        if (bitboard[yBoard + 1, xBoard + 1] == 0 && boardcode[yBoard + 1, xBoard + 1] >= 0)
+                        {
+                            mossa = new MoveCode();
+                            if (boardcode[yBoard + 1, xBoard + 1] != 0) mossa.cattura = true;
+                            mossa.xPartenza = xBoard;
+                            mossa.yPartenza = yBoard;
+                            mossa.xArrivo = (byte)(xBoard + 1);
+                            mossa.yArrivo = (byte)(yBoard + 1);
+                            mosse[indexmossa] = mossa;
+                            indexmossa++;
+                        }
+                    }
+
+
+
+
+
+                }
+
+                if (xBoard != 0)
+                {
+                    if (bitboard[yBoard, xBoard - 1] == 0 && boardcode[yBoard, xBoard - 1] >= 0)
+                    {
+                        mossa = new MoveCode();
+                        if (boardcode[yBoard, xBoard - 1] != 0) mossa.cattura = true;
+                        mossa.xPartenza = xBoard;
+                        mossa.yPartenza = yBoard;
+                        mossa.xArrivo = (byte)(xBoard - 1);
+                        mossa.yArrivo = yBoard;
+                        mosse[indexmossa] = mossa;
+                        indexmossa++;
+                    }
+                }
+
+                if (xBoard != 7)
+                {
+                    if (bitboard[yBoard, xBoard + 1] == 0 && boardcode[yBoard, xBoard + 1] >= 0)
+                    {
+                        mossa = new MoveCode();
+                        if (boardcode[yBoard, xBoard + 1] != 0) mossa.cattura = true;
+                        mossa.xPartenza = xBoard;
+                        mossa.yPartenza = yBoard;
+                        mossa.xArrivo = (byte)(xBoard + 1);
+                        mossa.yArrivo = yBoard;
+                        mosse[indexmossa] = mossa;
+                        indexmossa++;
+                    }
+                }
+
+            }
+        }
+
+
+        #endregion
 
     }
 }

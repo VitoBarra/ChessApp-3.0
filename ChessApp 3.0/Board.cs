@@ -15,7 +15,7 @@ namespace ChessApp_3._0
         public int xPos;
         public int yPos;
         public bool clicked = false;
-        ChessEngine.MoveCode mossaGrafic;
+        ChessEngine.MoveCode mossaGrafic = new ChessEngine.MoveCode();
 
         public Board()
         {

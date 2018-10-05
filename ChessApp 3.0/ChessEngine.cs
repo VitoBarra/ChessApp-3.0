@@ -9,7 +9,7 @@ namespace ChessApp_3._0
 {
     public class ChessEngine
     {
-        class MoveCode
+        public class MoveCode
         {
             public byte xPartenza = 8;
             public byte yPartenza = 8;
@@ -17,7 +17,7 @@ namespace ChessApp_3._0
             public byte yArrivo = 8;
 
             public bool cattura = false;
-            public byte promozione = 0;
+            public SByte promozione = 0;
             public byte arrocco = 0;
         }
 
@@ -616,5 +616,15 @@ namespace ChessApp_3._0
 
         #endregion
 
+        public void Make_move(MoveCode sasso)
+        {
+            if (sasso.arrocco == 0)
+            {
+                boardcode[sasso.yArrivo, sasso.xArrivo] = boardcode[sasso.yPartenza, sasso.xPartenza] + sasso.promozione;
+                boardcode[sasso.yPartenza, sasso.xPartenza] = 0;
+            }
+
+
+        }
     }
 }

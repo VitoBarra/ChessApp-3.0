@@ -9,20 +9,8 @@ namespace ChessApp_3._0
 {
     public class ChessEngine
     {
-        class MoveCode
-        {
-            public byte xPartenza = 8;
-            public byte yPartenza = 8;
-            public byte xArrivo = 8;
-            public byte yArrivo = 8;
-
-            public bool cattura = false;
-            public byte promozione = 0;
-            public byte arrocco = 0;
-        } 
-
-        int[,] boardCode;
-        int[,] bitBoard =
+        int[,] boardcode;
+        int[,] bitboard =
           { { 0,0,0,0,0,0,0,0 },
             { 0,0,0,0,0,0,0,0 },
             { 0,0,0,0,0,0,0,0 },
@@ -48,25 +36,12 @@ namespace ChessApp_3._0
         }
 
 
-        void LoadDebug()
-        {
-            MoveCode culo = new MoveCode { };
-
-           
-
-            MessageBox.Show(culo.arrocco.ToString());
-            //BitBoardGenerator();
-            //StampaBitBoard();
-        }
 
 
 
+        void CanMove() { }
 
 
-        void CanMove()
-        {
-
-        }
         void StampaBitBoard()
         {
             string bitboardStr = "";
@@ -123,39 +98,15 @@ namespace ChessApp_3._0
                 bitboard[y, xBoard]++;
             }
 
-
-
-        #region ---------------------------------------PiceMove---------------------------------------
-        public void RookMove(int yBoard, int xBoard)
-        {
-            for (int y = yBoard + 1; y < 8; y++)
-                if (boardCode[y, xBoard] != 0)
+                for (int y = yBoard - 1; y >= 0; y--)
+            {
+                if (boardcode[y, xBoard] != 0)
                 {
-                    bitBoard[y, xBoard]++;
+                    bitboard[y, xBoard]++;
                     break;
                 }
-
-            for (int y = yBoard - 1; y >= 0; y--)
-                if (boardCode[y, xBoard] != 0)
-                {
-                    bitBoard[y, xBoard]++;
-                    break;
-                }
-
-            for (int x = xBoard + 1; x < 8; x++)
-                if (boardCode[yBoard, x] != 0)
-                {
-                    bitBoard[yBoard, x]++;
-                    break;
-                }
-
-            for (int x = xBoard - 1; x >= 0; x--)
-                if (boardCode[yBoard, x] != 0)
-                {
-                    bitBoard[yBoard, x]++;
-                    break;
-                }
-        }
+                bitboard[y, xBoard]++;
+            }
 
             for (int x = xBoard + 1; x < 8; x++) { 
                 if (boardcode[yBoard, x] != 0)
@@ -181,28 +132,28 @@ namespace ChessApp_3._0
         public void BishopMove(int yBoard, int xBoard)
         {
             for (int y = yBoard + 1, x = xBoard + 1; y < 8 && x < 8; y++, x++)
-                if (boardCode[y, x] != 0)
+                if (boardcode[y, x] != 0)
                 {
-                    bitBoard[y, x]++;
+                    bitboard[y, x]++;
                     break;
                 }
             for (int y = yBoard - 1, x = xBoard - 1; y >= 0 && x >= 0; y--, x--)
-                if (boardCode[y, x] != 0)
+                if (boardcode[y, x] != 0)
                 {
-                    bitBoard[y, x]++;
+                    bitboard[y, x]++;
                     break;
                 }
 
             for (int y = yBoard - 1, x = xBoard + 1; y >= 0 && x < 8; y--, x++)
-                if (boardCode[y, x] != 0)
+                if (boardcode[y, x] != 0)
                 {
-                    bitBoard[y, x]++;
+                    bitboard[y, x]++;
                     break;
                 }
             for (int y = yBoard + 1, x = xBoard - 1; y < 8 && x >= 0; y++, x--)
-                if (boardCode[y, x] != 0)
+                if (boardcode[y, x] != 0)
                 {
-                    bitBoard[y, x]++;
+                    bitboard[y, x]++;
                     break;
                 }
         }
@@ -225,9 +176,9 @@ namespace ChessApp_3._0
             if (yBoard < 6)
             {
                 if (xBoard < 7)
-                    bitBoard[yBoard + 2, xBoard + 1]++;
+                    bitboard[yBoard + 2, xBoard + 1]++;
                 if (xBoard > 0)
-                    bitBoard[yBoard + 2, xBoard - 1]++;
+                    bitboard[yBoard + 2, xBoard - 1]++;
             }
             if (yBoard > 0)
             {
@@ -308,6 +259,8 @@ namespace ChessApp_3._0
 
 
         }
+
+
         #endregion
 
 

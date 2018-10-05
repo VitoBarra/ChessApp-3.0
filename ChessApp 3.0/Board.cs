@@ -14,6 +14,7 @@ namespace ChessApp_3._0
     {
         public int xPos;
         public int yPos;
+        ChessEngine.MoveCode mossaGrafic = new ChessEngine.MoveCode();
 
         public Board()
         {
@@ -36,25 +37,37 @@ namespace ChessApp_3._0
 
         private void Board_MouseClick(object sender, MouseEventArgs e)
         {
-            if (Global.boardCod[yPos, xPos] != 0 || Global.clicked)
+            if (Global.boardCod[yPos, xPos] != 0 || BoardShared.clicked)
             {
-                if (!Global.clicked)
+                if (!BoardShared.clicked)
                 {
-                    Global.clicked = true;
-                    Global.clickStr = yPos.ToString() + xPos.ToString();
+                    BoardShared.clicked = true;
+                    mossaGrafic.xPartenza = (byte)xPos;
+                    mossaGrafic.yPartenza = (byte)yPos;
+                    BoardShared.moveX = xPos;
+                    BoardShared.moveY = yPos;
+
                 }
                 else
                 {
-                    Global.clicked = false;
-                    Global.clickStr = yPos.ToString() + xPos.ToString();
+                    BoardShared.clicked = false;
+                    mossaGrafic.xArrivo = (byte)xPos;
+                    mossaGrafic.yArrivo = (byte)yPos;
+                    Global.boardCod[yPos,xPos]= Global.boardCod[BoardShared.moveY,BoardShared.moveX];
+                    Global.boardCod[BoardShared.moveY,BoardShared.moveX]= 0;
                 }
                 Form1.RenderPiceOnboard();
             }
+
+           // Convalidea_move(mossaGrafic);
         }
 
-        private void Board_Load_1(object sender, EventArgs e)
-        {
-
-        }
     }
+    public static class BoardShared
+    {
+        public static bool clicked = false;
+        public static int moveY;
+        public static int moveX;
+    }
+
 }

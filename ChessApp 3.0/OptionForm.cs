@@ -154,8 +154,8 @@ namespace ChessApp_3._0
             Global.Conf.Save(ConfigurationSaveMode.Modified);
 
 
-            Global.ThemeW = Global.Conf.AppSettings.Settings["ThemeW"].Value;
-            Global.ThemeB = Global.Conf.AppSettings.Settings["ThemeB"].Value;
+           // Global.ThemeW = Global.Conf.AppSettings.Settings["ThemeW"].Value;
+            //Global.ThemeB = Global.Conf.AppSettings.Settings["ThemeB"].Value;
 
         }
 

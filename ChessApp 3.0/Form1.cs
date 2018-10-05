@@ -56,13 +56,6 @@ namespace ChessApp_3._0
 
             Global.width_Height = int.Parse(Global.Conf.AppSettings.Settings["Dimension"].Value);
             Global.SvgBitMap = LoadSvg();
-            Global.ThemeW = Global.Conf.AppSettings.Settings["ThemeW"].Value;
-            Global.ThemeB = Global.Conf.AppSettings.Settings["ThemeB"].Value;
-            while (Global.Conf.AppSettings.Settings["PythonPath"].Value == "")
-            {
-                OptionForm option = new OptionForm();
-                option.ShowDialog();
-            }
             this.Width = Global.width_Height * 8 + 15 + TurnCount.Width + WhiteMove.Width + BlackMove.Width;
             this.Height = Global.width_Height * 8 + Global.width_Height + 39;
 
@@ -77,14 +70,11 @@ namespace ChessApp_3._0
             {
                 if (!clickdStart && clickdReset)
                 {
-                    //PyThread = new Thread(PythonIni);
-                    //PyThread.Start();
                     clickdReset = false;
                 }
                 else
                 {
-                    //PyThread = new Thread(PythonIni);
-                    //PyThread.Start();
+
                 }
                 clickdStart = true;
             }
@@ -92,10 +82,6 @@ namespace ChessApp_3._0
 
         private void Reset_Click(object sender, EventArgs e)
         {
-            //if (PyThread.IsAlive)
-            //{
-            //    PyThread.Abort();
-            //}
             clickdReset = true;
             clickdStart = false;
 
@@ -221,16 +207,16 @@ namespace ChessApp_3._0
                     if (i % 2 == 0)
                     {
                         if (j % 2 == 1)
-                            Global.board[i, j].BackColor = ColorTranslator.FromHtml(Global.ThemeB);
+                            Global.board[i, j].BackColor = ColorTranslator.FromHtml(Global.Conf.AppSettings.Settings["ThemeB"].Value);
                         else
-                            Global.board[i, j].BackColor = ColorTranslator.FromHtml(Global.ThemeW);
+                            Global.board[i, j].BackColor = ColorTranslator.FromHtml(Global.Conf.AppSettings.Settings["ThemeW"].Value);
                     }
                     else
                     {
                         if (j % 2 == 0)
-                            Global.board[i, j].BackColor = ColorTranslator.FromHtml(Global.ThemeB);
+                            Global.board[i, j].BackColor = ColorTranslator.FromHtml(Global.Conf.AppSettings.Settings["ThemeB"].Value);
                         else
-                            Global.board[i, j].BackColor = ColorTranslator.FromHtml(Global.ThemeW);
+                            Global.board[i, j].BackColor = ColorTranslator.FromHtml(Global.Conf.AppSettings.Settings["ThemeW"].Value);
                     }
                 }
 
@@ -431,19 +417,13 @@ namespace ChessApp_3._0
     public static class Global
     {
         public static int countStr = 0;
-        public static string ThemeW;
-        public static string ThemeB;
+        public static Board[,] board;
         public static Configuration Conf;
-        //public static StreamReader FileReader;
-        //public static StreamWriter FileWriter;
         public static Bitmap[] SvgBitMap;
         public static int width_Height = 50;
-        public static Board[,] board;
         public static int[,] boardCod;
         public static bool Player = false;
-        //public static bool clicked = false;
         public static bool MoveBool = true;
-        public static string clickStr = "";
         public static string MoveW = "";
         public static string MoveB = "";
         public static string[] movePgn = new string[1000];

@@ -33,21 +33,21 @@ namespace ChessApp_3._0
             { 0,0,0,0,0,0,0,0 },      
             { 0,0,0,0,0,0,0,0 }};
 
-        MoveCode[] mosse;
+        MoveCode[] mosse = new MoveCode[100];
         int indexmossa = 0;
         int wendex = 0;
 
         public ChessEngine(int[,] _boardcode)
         {
             boardcode = _boardcode;
-            loadDebug();
+            LoadDebug();
         }
 
 
         
 
 
-        void loadDebug()
+        void LoadDebug()
         {
             int kingx = 0;
             int kingy = 0;
@@ -811,7 +811,7 @@ namespace ChessApp_3._0
 
         }
 
-        public void convalidate_move(MoveCode sasso)
+        public void ConvalidateMove(MoveCode sasso)
         {
             bool wich_color;
             if (boardcode[sasso.yPartenza, sasso.xPartenza] > 0) { wich_color = true; }

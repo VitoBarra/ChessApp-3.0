@@ -59,7 +59,7 @@ namespace ChessApp_3._0
                 Form1.RenderPiceOnboard();
             }
 
-           // Convalidea_move(mossaGrafic);
+            Global.engine.ConvalidateMove(mossaGrafic);
         }
 
     }

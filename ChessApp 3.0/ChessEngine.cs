@@ -53,17 +53,17 @@ namespace ChessApp_3._0
             int kingy = 0;
             BitBoardGenerator(true, ref kingx, ref kingy);
 
-            kingx = 4;
-            kingy = 4;
+            //kingx = 4;
+            //kingy = 4;
            
            // KingMoveReal((byte)(kingx), (byte)(kingy), true);
 
-            MessageBox.Show("Starting");
-            for (int useless = 0; useless < 100000000; useless++) {
-             //   KingMoveReal((byte)(kingx), (byte)(kingy), true);
-                indexmossa = 0;
-                    }
-            MessageBox.Show("Finished");
+            //MessageBox.Show("Starting");
+            //for (int useless = 0; useless < 100000000; useless++) {
+            // //   KingMoveReal((byte)(kingx), (byte)(kingy), true);
+            //    indexmossa = 0;
+            //        }
+            //MessageBox.Show("Finished");
             StampaBitBoard();
         }
 

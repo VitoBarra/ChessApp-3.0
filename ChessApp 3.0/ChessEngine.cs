@@ -40,14 +40,14 @@ namespace ChessApp_3._0
         public ChessEngine(int[,] _boardcode)
         {
             boardcode = _boardcode;
-            loadDebug();
+            LoadDebug();
         }
 
 
         
 
 
-        void loadDebug()
+        void LoadDebug()
         {
             int kingx = 0;
             int kingy = 0;
@@ -57,14 +57,6 @@ namespace ChessApp_3._0
             kingy = 4;
 
             KingMoveReal((byte)(kingx), (byte)(kingy), true);
-
-            MessageBox.Show("Starting");
-            for (int useless = 0; useless < 100000000; useless++) {
-                KingMoveReal((byte)(kingx), (byte)(kingy), true);
-                indexmossa = 0;
-
-                    }
-            MessageBox.Show("Finished");
             StampaBitBoard();
         }
 

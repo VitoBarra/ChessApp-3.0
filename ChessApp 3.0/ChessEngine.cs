@@ -33,7 +33,7 @@ namespace ChessApp_3._0
             { 0,0,0,0,0,0,0,0 },      
             { 0,0,0,0,0,0,0,0 }};
 
-        MoveCode[] mosse = new MoveCode[100];
+        MoveCode[] mosse;
         int indexmossa = 0;
 
 
@@ -73,31 +73,24 @@ namespace ChessApp_3._0
         {
             if (iswhite)
             {
+                mosse = new MoveCode[100];
+                indexmossa = 0;
                 int kingx = 0;
                 int kingy = 0;
-                BitBoardGenerator(true, ref kingx, ref kingy);
-                
+                BitBoardGenerator(false, ref kingx, ref kingy);
 
-
-                if (boardcode[kingy, kingx] > 1)
+                if (bitboard[kingy, kingx] > 1)
                 {
-
-                    
-
-
+                    KingMoveReal((byte)(kingy), (byte)(kingx), true);
+                    return;
                 }
                 else
                 {
+                    KingMoveReal((byte)(kingy), (byte)(kingx), true);
 
 
 
                 }
-
-
-
-
-
-
             }
         }
 

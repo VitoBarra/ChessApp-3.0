@@ -62,7 +62,6 @@ namespace ChessApp_3._0
             for (int useless = 0; useless < 100000000; useless++) {
              //   KingMoveReal((byte)(kingx), (byte)(kingy), true);
                 indexmossa = 0;
-
                     }
             MessageBox.Show("Finished");
             StampaBitBoard();

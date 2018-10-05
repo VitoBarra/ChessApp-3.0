@@ -14,6 +14,8 @@ namespace ChessApp_3._0
     {
         public int xPos;
         public int yPos;
+        public bool clicked = false;
+        ChessEngine.MoveCode mossaGrafic;
 
         public Board()
         {
@@ -36,25 +38,25 @@ namespace ChessApp_3._0
 
         private void Board_MouseClick(object sender, MouseEventArgs e)
         {
-            if (Global.boardCod[yPos, xPos] != 0 || Global.clicked)
+            if (Global.boardCod[yPos, xPos] != 0 || clicked)
             {
-                if (!Global.clicked)
+                if (!clicked)
                 {
-                    Global.clicked = true;
-                    Global.clickStr = yPos.ToString() + xPos.ToString();
+                    clicked = true;
+                    mossaGrafic.xPartenza = (byte)xPos;
+                    mossaGrafic.yPartenza = (byte)yPos;
                 }
                 else
                 {
-                    Global.clicked = false;
-                    Global.clickStr = yPos.ToString() + xPos.ToString();
+                    clicked = false;
+                    mossaGrafic.xArrivo = (byte)xPos;
+                    mossaGrafic.yArrivo = (byte)yPos;
                 }
                 Form1.RenderPiceOnboard();
             }
+           // Convalidea_move(mossaGrafic);
         }
 
-        private void Board_Load_1(object sender, EventArgs e)
-        {
 
-        }
     }
 }

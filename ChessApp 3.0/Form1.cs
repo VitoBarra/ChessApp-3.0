@@ -441,7 +441,7 @@ namespace ChessApp_3._0
         public static Board[,] board;
         public static int[,] boardCod;
         public static bool Player = false;
-        public static bool clicked = false;
+        //public static bool clicked = false;
         public static bool MoveBool = true;
         public static string clickStr = "";
         public static string MoveW = "";

@@ -90,22 +90,22 @@ namespace ChessApp_3._0
             if (GameModeComboBox.SelectedIndex == 0)
             {
                 DifficultyWCombo.Hide(); DifficultyBCombo.Hide();
-                Global.Conf.AppSettings.Settings["GameMode"].Value = "\\Player_vs_Player.py";
+                Global.Conf.AppSettings.Settings["GameMode"].Value = "1";
             }
             else if (GameModeComboBox.SelectedIndex == 1)
             {
                 DifficultyWCombo.Hide(); DifficultyBCombo.Show();
-                Global.Conf.AppSettings.Settings["GameMode"].Value = "\\Play_With_White.py";
+                Global.Conf.AppSettings.Settings["GameMode"].Value = "2";
             }
             else if (GameModeComboBox.SelectedIndex == 2)
             {
                 DifficultyWCombo.Show(); DifficultyBCombo.Hide();
-                Global.Conf.AppSettings.Settings["GameMode"].Value = "\\Play_With_Black.py";
+                Global.Conf.AppSettings.Settings["GameMode"].Value = "3";
             }
             else if (GameModeComboBox.SelectedIndex == 3)
             {
                 DifficultyWCombo.Show(); DifficultyBCombo.Show();
-                Global.Conf.AppSettings.Settings["GameMode"].Value = "\\Ai_vs_Ai.py";
+                Global.Conf.AppSettings.Settings["GameMode"].Value = "4";
             }
         }
 

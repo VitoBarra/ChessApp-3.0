@@ -21,7 +21,6 @@ namespace ChessApp_3._0
 
         bool clickdStart = false;
         bool clickdReset = false;
-       // ChessEngine engine;
         static string chesspath = FindPath() + "\\ChessApp 3.0";
       
 

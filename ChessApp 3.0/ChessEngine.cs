@@ -39,7 +39,8 @@ namespace ChessApp_3._0
 
         public ChessEngine(int[,] _boardcode)
         {
-            boardcode = _boardcode;
+            boardcode = _boardcode; for (int j = 0; j < 100; j++)
+                mosse[j] = new MoveCode();
             LoadDebug();
         }
 
@@ -73,6 +74,8 @@ namespace ChessApp_3._0
             if (iswhite)
             {
                 mosse = new MoveCode[100];
+                for (int j = 0; j < 100; j++)
+                    mosse[j] = new MoveCode();
                 indexmossa = 0;
                 int kingx = 0;
                 int kingy = 0;
@@ -807,8 +810,6 @@ namespace ChessApp_3._0
                 boardcode[sasso.yArrivo, sasso.xArrivo] = boardcode[sasso.yPartenza, sasso.xPartenza] + sasso.promozione;
                 boardcode[sasso.yPartenza, sasso.xPartenza] = 0;
             }
-
-
         }
 
         public void ConvalidateMove(MoveCode sasso)

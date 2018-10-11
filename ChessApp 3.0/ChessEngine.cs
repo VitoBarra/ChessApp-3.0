@@ -36,7 +36,6 @@ namespace ChessApp_3._0
         MoveCode[] mosse = new MoveCode[100];
         int indexmossa = 0;
         int wendex = 0;
-
         public ChessEngine(int[,] _boardcode)
         {
             boardcode = _boardcode; for (int j = 0; j < 100; j++)

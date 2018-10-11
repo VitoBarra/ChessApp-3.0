@@ -25,13 +25,13 @@ namespace ChessApp_3._0
         {
             DimentionSquareTextBox.Text = Global.Conf.AppSettings.Settings["Dimension"].Value;
             #region ComboBox Selected
-            if (Global.Conf.AppSettings.Settings["GameMode"].Value == "\\Player_vs_Player.py")
+            if (Global.Conf.AppSettings.Settings["GameMode"].Value == "1")
                 GameModeComboBox.SelectedIndex = 0;
-            else if (Global.Conf.AppSettings.Settings["GameMode"].Value == "\\Play_With_White.py")
+            else if (Global.Conf.AppSettings.Settings["GameMode"].Value == "2")
                 GameModeComboBox.SelectedIndex = 1;
-            else if (Global.Conf.AppSettings.Settings["GameMode"].Value == "\\Play_With_Black.py")
+            else if (Global.Conf.AppSettings.Settings["GameMode"].Value == "3")
                 GameModeComboBox.SelectedIndex = 2;
-            else if (Global.Conf.AppSettings.Settings["GameMode"].Value == "\\Ai_vs_Ai.py")
+            else if (Global.Conf.AppSettings.Settings["GameMode"].Value == "4")
                 GameModeComboBox.SelectedIndex = 3;
 
             if (Global.Conf.AppSettings.Settings["DifficultyWhiteAi"].Value == "2")

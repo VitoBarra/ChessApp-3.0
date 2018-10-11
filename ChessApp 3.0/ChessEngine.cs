@@ -33,21 +33,21 @@ namespace ChessApp_3._0
             { 0,0,0,0,0,0,0,0 },      
             { 0,0,0,0,0,0,0,0 }};
 
-        MoveCode[] mosse;
+        MoveCode[] mosse = new MoveCode[100];
         int indexmossa = 0;
         int wendex = 0;
-
         public ChessEngine(int[,] _boardcode)
         {
-            boardcode = _boardcode;
-            loadDebug();
+            boardcode = _boardcode; for (int j = 0; j < 100; j++)
+                mosse[j] = new MoveCode();
+            LoadDebug();
         }
 
 
         
 
 
-        void loadDebug()
+        void LoadDebug()
         {
             int kingx = 0;
             int kingy = 0;
@@ -73,6 +73,8 @@ namespace ChessApp_3._0
             if (iswhite)
             {
                 mosse = new MoveCode[100];
+                for (int j = 0; j < 100; j++)
+                    mosse[j] = new MoveCode();
                 indexmossa = 0;
                 int kingx = 0;
                 int kingy = 0;
@@ -86,9 +88,6 @@ namespace ChessApp_3._0
                 else
                 {
                     KingMoveReal((byte)(kingy), (byte)(kingx), true);
-
-
-
                 }
             }
         }
@@ -807,11 +806,9 @@ namespace ChessApp_3._0
                 boardcode[sasso.yArrivo, sasso.xArrivo] = boardcode[sasso.yPartenza, sasso.xPartenza] + sasso.promozione;
                 boardcode[sasso.yPartenza, sasso.xPartenza] = 0;
             }
-
-
         }
 
-        public void convalidate_move(MoveCode sasso)
+        public void ConvalidateMove(MoveCode sasso)
         {
             bool wich_color;
             if (boardcode[sasso.yPartenza, sasso.xPartenza] > 0) { wich_color = true; }

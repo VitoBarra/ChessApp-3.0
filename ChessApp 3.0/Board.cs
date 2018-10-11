@@ -42,10 +42,8 @@ namespace ChessApp_3._0
                 if (!BoardShared.clicked)
                 {
                     BoardShared.clicked = true;
-                    mossaGrafic.xPartenza = (byte)xPos;
-                    mossaGrafic.yPartenza = (byte)yPos;
-                    BoardShared.moveX = xPos;
-                    BoardShared.moveY = yPos;
+                    BoardShared.movedX = xPos;
+                    BoardShared.movedY = yPos;
 
                 }
                 else
@@ -53,21 +51,27 @@ namespace ChessApp_3._0
                     BoardShared.clicked = false;
                     mossaGrafic.xArrivo = (byte)xPos;
                     mossaGrafic.yArrivo = (byte)yPos;
-                    Global.boardCod[yPos,xPos]= Global.boardCod[BoardShared.moveY,BoardShared.moveX];
-                    Global.boardCod[BoardShared.moveY,BoardShared.moveX]= 0;
+                    mossaGrafic.xPartenza = (byte)BoardShared.movedX;
+                    mossaGrafic.yPartenza = (byte)BoardShared.movedY;
+
+                    if (yPos != BoardShared.movedY || xPos != BoardShared.movedX)
+                    {
+                        Global.boardCod[yPos, xPos] = Global.boardCod[BoardShared.movedY, BoardShared.movedX];
+                        Global.boardCod[BoardShared.movedY, BoardShared.movedX] = 0;
+                    }
+                    Global.engine.ConvalidateMove(mossaGrafic);
                 }
                 Form1.RenderPiceOnboard();
             }
 
-           // Convalidea_move(mossaGrafic);
         }
 
     }
     public static class BoardShared
     {
         public static bool clicked = false;
-        public static int moveY;
-        public static int moveX;
+        public static int movedY;
+        public static int movedX;
     }
 
 }

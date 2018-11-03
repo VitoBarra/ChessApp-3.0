@@ -55,7 +55,7 @@ namespace ChessApp_3._0
             if (Global.Conf.AppSettings.Settings["ThemeW"].Value == "#ffe6ee" && Global.Conf.AppSettings.Settings["ThemeB"].Value == "#ff6699")
                 ThemeComboBox.SelectedIndex = 2;
             #endregion
-            PythonPathTextBox.Text = Global.Conf.AppSettings.Settings["PythonPath"].Value;
+            //PythonPathTextBox.Text = Global.Conf.AppSettings.Settings["PythonPath"].Value;
         }
 
         #region Button
@@ -180,7 +180,7 @@ namespace ChessApp_3._0
             FolderBrowserDialog FolderDialog = new FolderBrowserDialog();
             if (FolderDialog.ShowDialog() == DialogResult.OK)
             {
-                PythonPathTextBox.Text = FolderDialog.SelectedPath;
+                //PythonPathTextBox.Text = FolderDialog.SelectedPath;
                 Global.Conf.AppSettings.Settings["PythonPath"].Value = FolderDialog.SelectedPath;
             }
         }

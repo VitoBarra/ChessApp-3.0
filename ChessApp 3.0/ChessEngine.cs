@@ -22,7 +22,19 @@ namespace ChessApp_3._0
         }
 
 
-        int[,] boardcode;             
+        int[,] boardcode=
+        {
+         { -4,-3,-2,-6,-5,-2,-3,-4 },
+         { -1,-1,-1,-1,-1,-1,-1,-1 },
+         { 0,0,0,0,0,0,0,0 },
+         { 0,0,0,0,0,0,0,0 },
+         { 0,0,0,0,0,0,0,0 },
+         { 0,0,0,0,0,0,0,0 },
+         { 1,1,1,1,1,1,1,1 },
+         { 4,3,2,6,5,2,3,4 }
+        };         
+
+
         int[,] bitboard =             
           { { 0,0,0,0,0,0,0,0 },      
             { 0,0,0,0,0,0,0,0 },      
@@ -33,13 +45,18 @@ namespace ChessApp_3._0
             { 0,0,0,0,0,0,0,0 },      
             { 0,0,0,0,0,0,0,0 }};
 
-        MoveCode[] mosse;
+        MoveCode[] mosse_pos;
         int indexmossa = 0;
-        int wendex = 0;
 
+
+
+        public ChessEngine()
+        {
+            loadDebug();
+        }
         public ChessEngine(int[,] _boardcode)
         {
-            boardcode = _boardcode;
+            //  boardcode = _boardcode;
             loadDebug();
         }
 
@@ -52,19 +69,12 @@ namespace ChessApp_3._0
             int kingx = 0;
             int kingy = 0;
             BitBoardGenerator(true, ref kingx, ref kingy);
+            //StampaBitBoard();
+            indexmossa = 0;
+            mosse_pos = new MoveCode[100];
+            PawnMoveReal(1, 4, !(true));
+            Countmosse();
 
-            //kingx = 4;
-            //kingy = 4;
-           
-           // KingMoveReal((byte)(kingx), (byte)(kingy), true);
-
-            //MessageBox.Show("Starting");
-            //for (int useless = 0; useless < 100000000; useless++) {
-            // //   KingMoveReal((byte)(kingx), (byte)(kingy), true);
-            //    indexmossa = 0;
-            //        }
-            //MessageBox.Show("Finished");
-            StampaBitBoard();
         }
 
 
@@ -72,7 +82,7 @@ namespace ChessApp_3._0
         {
             if (iswhite)
             {
-                mosse = new MoveCode[100];
+                mosse_pos = new MoveCode[100];
                 indexmossa = 0;
                 int kingx = 0;
                 int kingy = 0;
@@ -93,11 +103,20 @@ namespace ChessApp_3._0
             }
         }
 
+        public void Countmosse()
+        {
+            int j = 0;
+            for (j = 0; j < 100; j++)
+            {
+                if (mosse_pos[j] == null) break;
+            }
+            MessageBox.Show((j).ToString());
+        }
 
 
 
 
-        void StampaBitBoard()
+        void StampaBitBoard() //debug
         {
             string bitboardStr = "";
             for (int y = 0; y < 8; y++)
@@ -115,7 +134,7 @@ namespace ChessApp_3._0
 
 
         public void BitBoardGenerator(bool iswhite, ref int kingex, ref int kingey)
-        {
+        { 
             bitboard = new int[,]
             { { 0,0,0,0,0,0,0,0 },
             { 0,0,0,0,0,0,0,0 },
@@ -134,12 +153,12 @@ namespace ChessApp_3._0
                         switch (boardcode[y, x])
                         {
                             case 0: break;
-                            case 1: PawnMoveWhite(y, x); break;
-                            case 4: RookMove(y, x); break;
-                            case 3: KnightMove(y, x); break;
-                            case 2: BishopMove(y, x); break;
-                            case 5: QueenMove(y, x); break;
-                            case 6: KingMove(y, x); kingex = x; kingey = y; break;
+                            case 1: PawnMoveWhiteBitBoard(y, x); break;
+                            case 4: RookmMoveBitBoard(y, x); break;
+                            case 3: KnightMoveBitBoard(y, x); break;
+                            case 2: BishopMoveBitBoard(y, x); break;
+                            case 5: QueenMoveBitBoard(y, x); break;
+                            case 6: KingMoveBitBoard(y, x); kingex = x; kingey = y; break;
                         }
                     }
             }
@@ -151,12 +170,12 @@ namespace ChessApp_3._0
                         switch (boardcode[y, x])
                         {
                             case 0: break;
-                            case -1: PawnMoveBlack(y, x); break;
-                            case -4: RookMove(y, x); break;
-                            case -3: KnightMove(y, x); break;
-                            case -2: BishopMove(y, x); break;
-                            case -5: QueenMove(y, x); break;
-                            case -6: KingMove(y, x); kingex = x; kingey = y; break;
+                            case -1: PawnMoveBlackBitBoard(y, x); break;
+                            case -4: RookmMoveBitBoard(y, x); break;
+                            case -3: KnightMoveBitBoard(y, x); break;
+                            case -2: BishopMoveBitBoard(y, x); break;
+                            case -5: QueenMoveBitBoard(y, x); break;
+                            case -6: KingMoveBitBoard(y, x); kingex = x; kingey = y; break;
                         }
                     }
             }
@@ -164,8 +183,8 @@ namespace ChessApp_3._0
 
 
 
-        #region ---------------------------------------PieceMove---------------------------------------
-        public void RookMove(int yBoard, int xBoard)
+        #region ---------------------------------------PieceMove BitBoard---------------------------------------
+        public void RookmMoveBitBoard(int yBoard, int xBoard)
         {
             for (int y = yBoard + 1; y < 8; y++)
             {
@@ -208,7 +227,7 @@ namespace ChessApp_3._0
             }
         }
 
-        public void BishopMove(int yBoard, int xBoard)
+        public void BishopMoveBitBoard(int yBoard, int xBoard)
         {
             for (int y = yBoard + 1, x = xBoard + 1; y < 8 && x < 8; y++, x++)
             {
@@ -249,13 +268,13 @@ namespace ChessApp_3._0
             }
         }
 
-        public void QueenMove(int yBoard, int xBoard)
+        public void QueenMoveBitBoard(int yBoard, int xBoard)
         {
-            RookMove(yBoard, xBoard);
-            BishopMove(yBoard, xBoard);
+            RookmMoveBitBoard(yBoard, xBoard);
+            BishopMoveBitBoard(yBoard, xBoard);
         }
 
-        public void KnightMove(int yBoard, int xBoard)
+        public void KnightMoveBitBoard(int yBoard, int xBoard)
         {
             if (yBoard < 7)
             {
@@ -288,7 +307,7 @@ namespace ChessApp_3._0
 
         }
 
-        public void PawnMoveWhite(int yBoard, int xBoard)
+        public void PawnMoveWhiteBitBoard(int yBoard, int xBoard)
         {
             if (xBoard != 0)
             {
@@ -301,7 +320,7 @@ namespace ChessApp_3._0
             }
         }
 
-        public void PawnMoveBlack(int yBoard, int xBoard)
+        public void PawnMoveBlackBitBoard(int yBoard, int xBoard)
         {
             if (xBoard != 0)
             {
@@ -314,7 +333,7 @@ namespace ChessApp_3._0
             }
         }
 
-        public void KingMove(int yBoard, int xBoard)
+        public void KingMoveBitBoard(int yBoard, int xBoard)
         {
             if (yBoard != 0)
             {
@@ -371,7 +390,7 @@ namespace ChessApp_3._0
                         mossa.yPartenza = yBoard;
                         mossa.xArrivo = xBoard;
                         mossa.yArrivo = (byte)(yBoard - 1);
-                        mosse[indexmossa] = mossa;
+                        mosse_pos[indexmossa] = mossa;
                         indexmossa++;
                         
                     }
@@ -385,7 +404,7 @@ namespace ChessApp_3._0
                             mossa.yPartenza = yBoard;
                             mossa.xArrivo = (byte)(xBoard - 1);
                             mossa.yArrivo = (byte)(yBoard - 1);
-                            mosse[indexmossa] = mossa;
+                            mosse_pos[indexmossa] = mossa;
                             indexmossa++;
                         }
                     }
@@ -399,7 +418,7 @@ namespace ChessApp_3._0
                             mossa.yPartenza = yBoard;
                             mossa.xArrivo = (byte)(xBoard + 1);
                             mossa.yArrivo = (byte)(yBoard - 1);
-                            mosse[indexmossa] = mossa;
+                            mosse_pos[indexmossa] = mossa;
                             indexmossa++;
                         }
                     }
@@ -415,7 +434,7 @@ namespace ChessApp_3._0
                         mossa.yPartenza = yBoard;
                         mossa.xArrivo = xBoard;
                         mossa.yArrivo = (byte)(yBoard + 1);
-                        mosse[indexmossa] = mossa;
+                        mosse_pos[indexmossa] = mossa;
                         indexmossa++;
                     }
                     if (xBoard != 0)
@@ -428,7 +447,7 @@ namespace ChessApp_3._0
                             mossa.yPartenza = yBoard;
                             mossa.xArrivo = (byte)(xBoard - 1);
                             mossa.yArrivo = (byte)(yBoard + 1);
-                            mosse[indexmossa] = mossa;
+                            mosse_pos[indexmossa] = mossa;
                             indexmossa++;
                         }
                     }
@@ -442,7 +461,7 @@ namespace ChessApp_3._0
                             mossa.yPartenza = yBoard;
                             mossa.xArrivo = (byte)(xBoard + 1);
                             mossa.yArrivo = (byte)(yBoard + 1);
-                            mosse[indexmossa] = mossa;
+                            mosse_pos[indexmossa] = mossa;
                             indexmossa++;
                         }
                     }
@@ -463,7 +482,7 @@ namespace ChessApp_3._0
                         mossa.yPartenza = yBoard;
                         mossa.xArrivo = (byte)(xBoard - 1);
                         mossa.yArrivo = yBoard;
-                        mosse[indexmossa] = mossa;
+                        mosse_pos[indexmossa] = mossa;
                         indexmossa++;
                     }
                 }
@@ -478,7 +497,7 @@ namespace ChessApp_3._0
                         mossa.yPartenza = yBoard;
                         mossa.xArrivo = (byte)(xBoard + 1);
                         mossa.yArrivo = yBoard;
-                        mosse[indexmossa] = mossa;
+                        mosse_pos[indexmossa] = mossa;
                         indexmossa++;
                     }
                 }
@@ -497,7 +516,7 @@ namespace ChessApp_3._0
                         mossa.yPartenza = yBoard;
                         mossa.xArrivo = xBoard;
                         mossa.yArrivo = (byte)(yBoard - 1);
-                        mosse[indexmossa] = mossa;
+                        mosse_pos[indexmossa] = mossa;
                         indexmossa++;
                     }
                     if (xBoard != 0)
@@ -510,7 +529,7 @@ namespace ChessApp_3._0
                             mossa.yPartenza = yBoard;
                             mossa.xArrivo = (byte)(xBoard - 1);
                             mossa.yArrivo = (byte)(yBoard - 1);
-                            mosse[indexmossa] = mossa;
+                            mosse_pos[indexmossa] = mossa;
                             indexmossa++;
                         }
                     }
@@ -524,7 +543,7 @@ namespace ChessApp_3._0
                             mossa.yPartenza = yBoard;
                             mossa.xArrivo = (byte)(xBoard + 1);
                             mossa.yArrivo = (byte)(yBoard - 1);
-                            mosse[indexmossa] = mossa;
+                            mosse_pos[indexmossa] = mossa;
                             indexmossa++;
                         }
                     }
@@ -540,7 +559,7 @@ namespace ChessApp_3._0
                         mossa.yPartenza = yBoard;
                         mossa.xArrivo = xBoard;
                         mossa.yArrivo = (byte)(yBoard + 1);
-                        mosse[indexmossa] = mossa;
+                        mosse_pos[indexmossa] = mossa;
                         indexmossa++;
                     }
                     if (xBoard != 0)
@@ -553,7 +572,7 @@ namespace ChessApp_3._0
                             mossa.yPartenza = yBoard;
                             mossa.xArrivo = (byte)(xBoard - 1);
                             mossa.yArrivo = (byte)(yBoard + 1);
-                            mosse[indexmossa] = mossa;
+                            mosse_pos[indexmossa] = mossa;
                             indexmossa++;
                         }
                     }
@@ -567,7 +586,7 @@ namespace ChessApp_3._0
                             mossa.yPartenza = yBoard;
                             mossa.xArrivo = (byte)(xBoard + 1);
                             mossa.yArrivo = (byte)(yBoard + 1);
-                            mosse[indexmossa] = mossa;
+                            mosse_pos[indexmossa] = mossa;
                             indexmossa++;
                         }
                     }
@@ -588,7 +607,7 @@ namespace ChessApp_3._0
                         mossa.yPartenza = yBoard;
                         mossa.xArrivo = (byte)(xBoard - 1);
                         mossa.yArrivo = yBoard;
-                        mosse[indexmossa] = mossa;
+                        mosse_pos[indexmossa] = mossa;
                         indexmossa++;
                     }
                 }
@@ -603,7 +622,7 @@ namespace ChessApp_3._0
                         mossa.yPartenza = yBoard;
                         mossa.xArrivo = (byte)(xBoard + 1);
                         mossa.yArrivo = yBoard;
-                        mosse[indexmossa] = mossa;
+                        mosse_pos[indexmossa] = mossa;
                         indexmossa++;
                     }
                 }
@@ -627,7 +646,7 @@ namespace ChessApp_3._0
                         mossa.yPartenza = yBoard;
                         mossa.xArrivo = xBoard;
                         mossa.yArrivo = (byte)(a);
-                        mosse[indexmossa] = mossa;
+                        mosse_pos[indexmossa] = mossa;
                         indexmossa++;
                         break;
                     }
@@ -635,7 +654,7 @@ namespace ChessApp_3._0
                     mossa.yPartenza = yBoard;
                     mossa.xArrivo = xBoard;
                     mossa.yArrivo = (byte)(a);
-                    mosse[indexmossa] = mossa;
+                    mosse_pos[indexmossa] = mossa;
                     indexmossa++;
                 }
                 for (int a = yBoard - 1; a >= 0; a--)
@@ -649,7 +668,7 @@ namespace ChessApp_3._0
                         mossa.yPartenza = yBoard;
                         mossa.xArrivo = xBoard;
                         mossa.yArrivo = (byte)(a);
-                        mosse[indexmossa] = mossa;
+                        mosse_pos[indexmossa] = mossa;
                         indexmossa++;
                         break;
                     }
@@ -657,7 +676,7 @@ namespace ChessApp_3._0
                     mossa.yPartenza = yBoard;
                     mossa.xArrivo = xBoard;
                     mossa.yArrivo = (byte)(a);
-                    mosse[indexmossa] = mossa;
+                    mosse_pos[indexmossa] = mossa;
                     indexmossa++;
                 }
                 for (int a = xBoard - 1; a >= 0; a--)
@@ -671,7 +690,7 @@ namespace ChessApp_3._0
                         mossa.yPartenza = yBoard;
                         mossa.xArrivo = (byte)(a);
                         mossa.yArrivo = xBoard;
-                        mosse[indexmossa] = mossa;
+                        mosse_pos[indexmossa] = mossa;
                         indexmossa++;
                         break;
                     }
@@ -679,7 +698,7 @@ namespace ChessApp_3._0
                     mossa.yPartenza = yBoard;
                     mossa.xArrivo = (byte)(a);
                     mossa.yArrivo = xBoard;
-                    mosse[indexmossa] = mossa;
+                    mosse_pos[indexmossa] = mossa;
                     indexmossa++;
                 }
                 for (int a = xBoard + 1; a < 8; a++)
@@ -693,7 +712,7 @@ namespace ChessApp_3._0
                         mossa.yPartenza = yBoard;
                         mossa.xArrivo = (byte)(a);
                         mossa.yArrivo = xBoard;
-                        mosse[indexmossa] = mossa;
+                        mosse_pos[indexmossa] = mossa;
                         indexmossa++;
                         break;
                     }
@@ -701,7 +720,7 @@ namespace ChessApp_3._0
                     mossa.yPartenza = yBoard;
                     mossa.xArrivo = (byte)(a);
                     mossa.yArrivo = xBoard;
-                    mosse[indexmossa] = mossa;
+                    mosse_pos[indexmossa] = mossa;
                     indexmossa++;
                 }
             }
@@ -718,7 +737,7 @@ namespace ChessApp_3._0
                         mossa.yPartenza = yBoard;
                         mossa.xArrivo = xBoard;
                         mossa.yArrivo = (byte)(a);
-                        mosse[indexmossa] = mossa;
+                        mosse_pos[indexmossa] = mossa;
                         indexmossa++;
                         break;
                     }
@@ -726,7 +745,7 @@ namespace ChessApp_3._0
                     mossa.yPartenza = yBoard;
                     mossa.xArrivo = xBoard;
                     mossa.yArrivo = (byte)(a);
-                    mosse[indexmossa] = mossa;
+                    mosse_pos[indexmossa] = mossa;
                     indexmossa++;
                 }
                 for (int a = yBoard - 1; a >= 0; a--)
@@ -740,7 +759,7 @@ namespace ChessApp_3._0
                         mossa.yPartenza = yBoard;
                         mossa.xArrivo = xBoard;
                         mossa.yArrivo = (byte)(a);
-                        mosse[indexmossa] = mossa;
+                        mosse_pos[indexmossa] = mossa;
                         indexmossa++;
                         break;
                     }
@@ -748,7 +767,7 @@ namespace ChessApp_3._0
                     mossa.yPartenza = yBoard;
                     mossa.xArrivo = xBoard;
                     mossa.yArrivo = (byte)(a);
-                    mosse[indexmossa] = mossa;
+                    mosse_pos[indexmossa] = mossa;
                     indexmossa++;
                 }
                 for (int a = xBoard - 1; a >= 0; a--)
@@ -762,7 +781,7 @@ namespace ChessApp_3._0
                         mossa.yPartenza = yBoard;
                         mossa.xArrivo = (byte)(a);
                         mossa.yArrivo = xBoard;
-                        mosse[indexmossa] = mossa;
+                        mosse_pos[indexmossa] = mossa;
                         indexmossa++;
                         break;
                     }
@@ -770,7 +789,7 @@ namespace ChessApp_3._0
                     mossa.yPartenza = yBoard;
                     mossa.xArrivo = (byte)(a);
                     mossa.yArrivo = xBoard;
-                    mosse[indexmossa] = mossa;
+                    mosse_pos[indexmossa] = mossa;
                     indexmossa++;
                 }
                 for (int a = xBoard + 1; a < 8; a++)
@@ -784,7 +803,7 @@ namespace ChessApp_3._0
                         mossa.yPartenza = yBoard;
                         mossa.xArrivo = (byte)(a);
                         mossa.yArrivo = xBoard;
-                        mosse[indexmossa] = mossa;
+                        mosse_pos[indexmossa] = mossa;
                         indexmossa++;
                         break;
                     }
@@ -792,8 +811,671 @@ namespace ChessApp_3._0
                     mossa.yPartenza = yBoard;
                     mossa.xArrivo = (byte)(a);
                     mossa.yArrivo = xBoard;
-                    mosse[indexmossa] = mossa;
+                    mosse_pos[indexmossa] = mossa;
                     indexmossa++;
+                }
+            }
+        }
+
+        public void BishopMoveReal(byte yBoard, byte xBoard, bool iswhite)
+        {
+            if (iswhite)
+            {
+                MoveCode mossa;
+                for (byte y = (byte)(yBoard + 1), x = (byte)(xBoard + 1); y < 8 && x < 8; y++, x++)
+                {
+                    if (boardcode[y, x] > 0) break;
+                    mossa = new MoveCode();
+                    mossa.xPartenza = xBoard;
+                    mossa.xArrivo = x;
+                    mossa.yPartenza = yBoard;
+                    mossa.yArrivo = y;
+                    if (boardcode[y, x] < 0)
+                    {
+                        mossa.cattura = true;
+                        mosse_pos[indexmossa] = mossa;
+                        indexmossa++;
+                        break;
+                    }
+                    mosse_pos[indexmossa] = mossa;
+                    indexmossa++;
+                }
+                for (byte y = (byte)(yBoard - 1), x = (byte)(xBoard - 1); y >= 0 && x >= 0; y--, x--)
+                {
+                    if (boardcode[y, x] > 0) break;
+                    mossa = new MoveCode();
+                    mossa.xPartenza = xBoard;
+                    mossa.xArrivo = x;
+                    mossa.yPartenza = yBoard;
+                    mossa.yArrivo = y;
+                    if (boardcode[y, x] < 0)
+                    {
+                        mossa.cattura = true;
+                        mosse_pos[indexmossa] = mossa;
+                        indexmossa++;
+                        break;
+                    }
+                    mosse_pos[indexmossa] = mossa;
+                    indexmossa++;
+                }
+
+                for (byte y = (byte)(yBoard - 1), x = (byte)(xBoard + 1); y >= 0 && x < 8; y--, x++)
+                {
+                    if (boardcode[y, x] > 0) break;
+                    mossa = new MoveCode();
+                    mossa.xPartenza = xBoard;
+                    mossa.xArrivo = x;
+                    mossa.yPartenza = yBoard;
+                    mossa.yArrivo = y;
+                    if (boardcode[y, x] < 0)
+                    {
+                        mossa.cattura = true;
+                        mosse_pos[indexmossa] = mossa;
+                        indexmossa++;
+                        break;
+                    }
+                    mosse_pos[indexmossa] = mossa;
+                    indexmossa++;
+                }
+                for (byte y = (byte)(yBoard + 1), x = (byte)(xBoard - 1); y < 8 && x >= 0; y++, x--)
+                {
+                    if (boardcode[y, x] > 0) break;
+                    mossa = new MoveCode();
+                    mossa.xPartenza = xBoard;
+                    mossa.xArrivo = x;
+                    mossa.yPartenza = yBoard;
+                    mossa.yArrivo = y;
+                    if (boardcode[y, x] < 0)
+                    {
+                        mossa.cattura = true;
+                        mosse_pos[indexmossa] = mossa;
+                        indexmossa++;
+                        break;
+                    }
+                    mosse_pos[indexmossa] = mossa;
+                    indexmossa++;
+                }
+            }
+            else
+            {
+                MoveCode mossa;
+                for (byte y = (byte)(yBoard + 1), x = (byte)(xBoard + 1); y < 8 && x < 8; y++, x++)
+                {
+                    if (boardcode[y, x] < 0) break;
+                    mossa = new MoveCode();
+                    mossa.xPartenza = xBoard;
+                    mossa.xArrivo = x;
+                    mossa.yPartenza = yBoard;
+                    mossa.yArrivo = y;
+                    if (boardcode[y, x] > 0)
+                    {
+                        mossa.cattura = true;
+                        mosse_pos[indexmossa] = mossa;
+                        indexmossa++;
+                        break;
+                    }
+                    mosse_pos[indexmossa] = mossa;
+                    indexmossa++;
+                }
+                for (byte y = (byte)(yBoard - 1), x = (byte)(xBoard - 1); y >= 0 && x >= 0; y--, x--)
+                {
+                    if (boardcode[y, x] < 0) break;
+                    mossa = new MoveCode();
+                    mossa.xPartenza = xBoard;
+                    mossa.xArrivo = x;
+                    mossa.yPartenza = yBoard;
+                    mossa.yArrivo = y;
+                    if (boardcode[y, x] > 0)
+                    {
+                        mossa.cattura = true;
+                        mosse_pos[indexmossa] = mossa;
+                        indexmossa++;
+                        break;
+                    }
+                    mosse_pos[indexmossa] = mossa;
+                    indexmossa++;
+                }
+
+                for (byte y = (byte)(yBoard - 1), x = (byte)(xBoard + 1); y >= 0 && x < 8; y--, x++)
+                {
+                    if (boardcode[y, x] < 0) break;
+                    mossa = new MoveCode();
+                    mossa.xPartenza = xBoard;
+                    mossa.xArrivo = x;
+                    mossa.yPartenza = yBoard;
+                    mossa.yArrivo = y;
+                    if (boardcode[y, x] > 0)
+                    {
+                        mossa.cattura = true;
+                        mosse_pos[indexmossa] = mossa;
+                        indexmossa++;
+                        break;
+                    }
+                    mosse_pos[indexmossa] = mossa;
+                    indexmossa++;
+                }
+                for (byte y = (byte)(yBoard + 1), x = (byte)(xBoard - 1); y < 8 && x >= 0; y++, x--)
+                {
+                    if (boardcode[y, x] < 0) break;
+                    mossa = new MoveCode();
+                    mossa.xPartenza = xBoard;
+                    mossa.xArrivo = x;
+                    mossa.yPartenza = yBoard;
+                    mossa.yArrivo = y;
+                    if (boardcode[y, x] > 0)
+                    {
+                        mossa.cattura = true;
+                        mosse_pos[indexmossa] = mossa;
+                        indexmossa++;
+                        break;
+                    }
+                    mosse_pos[indexmossa] = mossa;
+                    indexmossa++;
+                }
+            }
+        }
+
+        public void QueenMoveReal(byte yBoard, byte xBoard, bool iswhite)
+        {
+            BishopMoveReal(yBoard,xBoard,iswhite);
+            RookMoveReal(yBoard,xBoard,iswhite);
+        }
+    
+        public void KnightMoveReal(byte yBoard, byte xBoard, bool iswhite)
+        {
+            MoveCode mossa;
+            if (iswhite)
+            {
+                if (yBoard < 7)
+                {
+                    if (xBoard < 6)
+                    {
+                        if (boardcode[yBoard + 1, xBoard + 2] <= 0)
+                        {
+                            mossa = new MoveCode();
+                            mossa.yPartenza = yBoard;
+                            mossa.xPartenza = xBoard;
+                            mossa.yArrivo = (byte)(yBoard + 1);
+                            mossa.xArrivo = (byte)(xBoard + 2);
+                            if (boardcode[yBoard + 1, xBoard + 2] != 0) mossa.cattura = true;
+                            mosse_pos[indexmossa] = mossa;
+                            indexmossa++;
+                        }
+                    }
+                    if (xBoard > 1)
+                    {
+                        if (boardcode[yBoard + 1, xBoard - 2] <= 0)
+                        {
+                            mossa = new MoveCode();
+                            mossa.yPartenza = yBoard;
+                            mossa.xPartenza = xBoard;
+                            mossa.yArrivo = (byte)(yBoard + 1);
+                            mossa.xArrivo = (byte)(xBoard - 2);
+                            if (boardcode[yBoard + 1, xBoard - 2] != 0) mossa.cattura = true;
+                            mosse_pos[indexmossa] = mossa;
+                            indexmossa++;
+                        }
+                    }
+                }
+                if (yBoard < 6)
+                {
+                    if (xBoard < 7)
+                    {
+                        if (boardcode[yBoard + 2, xBoard + 1] <= 0)
+                        {
+                            mossa = new MoveCode();
+                            mossa.yPartenza = yBoard;
+                            mossa.xPartenza = xBoard;
+                            mossa.yArrivo = (byte)(yBoard + 2);
+                            mossa.xArrivo = (byte)(xBoard + 1);
+                            if (boardcode[yBoard + 2, xBoard + 1] != 0) mossa.cattura = true;
+                            mosse_pos[indexmossa] = mossa;
+                            indexmossa++;
+                        }
+
+                    }
+                    if (xBoard > 0)
+                    {
+                        if (boardcode[yBoard + 2, xBoard - 1] <= 0)
+                        {
+                            mossa = new MoveCode();
+                            mossa.yPartenza = yBoard;
+                            mossa.xPartenza = xBoard;
+                            mossa.yArrivo = (byte)(yBoard + 2);
+                            mossa.xArrivo = (byte)(xBoard - 1);
+                            if (boardcode[yBoard + 2, xBoard - 1] != 0) mossa.cattura = true;
+                            mosse_pos[indexmossa] = mossa;
+                            indexmossa++;
+                        }
+                    }
+                }
+                if (yBoard > 0)
+                {
+                    if (xBoard < 6)
+                    {
+                        if (boardcode[yBoard - 1, xBoard + 2] <= 0)
+                        {
+                            mossa = new MoveCode();
+                            mossa.yPartenza = yBoard;
+                            mossa.xPartenza = xBoard;
+                            mossa.yArrivo = (byte)(yBoard - 1);
+                            mossa.xArrivo = (byte)(xBoard + 2);
+                            if (boardcode[yBoard - 1, xBoard + 2] != 0) mossa.cattura = true;
+                            mosse_pos[indexmossa] = mossa;
+                            indexmossa++;
+                        }
+
+                    }
+                    if (xBoard > 1)
+                    {
+
+                        if (boardcode[yBoard - 1, xBoard - 2] <= 0)
+                        {
+                            mossa = new MoveCode();
+                            mossa.yPartenza = yBoard;
+                            mossa.xPartenza = xBoard;
+                            mossa.yArrivo = (byte)(yBoard - 1);
+                            mossa.xArrivo = (byte)(xBoard - 2);
+                            if (boardcode[yBoard - 1, xBoard - 2] != 0) mossa.cattura = true;
+                            mosse_pos[indexmossa] = mossa;
+                            indexmossa++;
+                        }
+                    }
+                }
+                if (yBoard > 1)
+                {
+                    if (xBoard < 7)
+                    {
+                        bitboard[yBoard - 2, xBoard + 1]++;
+                        if (boardcode[yBoard - 2, xBoard + 1] <= 0)
+                        {
+                            mossa = new MoveCode();
+                            mossa.yPartenza = yBoard;
+                            mossa.xPartenza = xBoard;
+                            mossa.yArrivo = (byte)(yBoard - 2);
+                            mossa.xArrivo = (byte)(xBoard + 1);
+                            if (boardcode[yBoard - 2, xBoard + 1] != 0) mossa.cattura = true;
+                            mosse_pos[indexmossa] = mossa;
+                            indexmossa++;
+                        }
+                    }
+                    if (xBoard > 0)
+                    {
+                        bitboard[yBoard - 2, xBoard - 1]++;
+                        if (boardcode[yBoard - 2, xBoard - 1] <= 0)
+                        {
+                            mossa = new MoveCode();
+                            mossa.yPartenza = yBoard;
+                            mossa.xPartenza = xBoard;
+                            mossa.yArrivo = (byte)(yBoard - 2);
+                            mossa.xArrivo = (byte)(xBoard - 1);
+                            if (boardcode[yBoard - 2, xBoard - 1] != 0) mossa.cattura = true;
+                            mosse_pos[indexmossa] = mossa;
+                            indexmossa++;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                if (yBoard < 7)
+                {
+                    if (xBoard < 6)
+                    {
+                        if (boardcode[yBoard + 1, xBoard + 2] >= 0)
+                        {
+                            mossa = new MoveCode();
+                            mossa.yPartenza = yBoard;
+                            mossa.xPartenza = xBoard;
+                            mossa.yArrivo = (byte)(yBoard + 1);
+                            mossa.xArrivo = (byte)(xBoard + 2);
+                            if (boardcode[yBoard + 1, xBoard + 2] != 0) mossa.cattura = true;
+                            mosse_pos[indexmossa] = mossa;
+                            indexmossa++;
+                        }
+                    }
+                    if (xBoard > 1)
+                    {
+                        if (boardcode[yBoard + 1, xBoard - 2] >= 0)
+                        {
+                            mossa = new MoveCode();
+                            mossa.yPartenza = yBoard;
+                            mossa.xPartenza = xBoard;
+                            mossa.yArrivo = (byte)(yBoard + 1);
+                            mossa.xArrivo = (byte)(xBoard - 2);
+                            if (boardcode[yBoard + 1, xBoard - 2] != 0) mossa.cattura = true;
+                            mosse_pos[indexmossa] = mossa;
+                            indexmossa++;
+                        }
+                    }
+                }
+                if (yBoard < 6)
+                {
+                    if (xBoard < 7)
+                    {
+                        if (boardcode[yBoard + 2, xBoard + 1] >= 0)
+                        {
+                            mossa = new MoveCode();
+                            mossa.yPartenza = yBoard;
+                            mossa.xPartenza = xBoard;
+                            mossa.yArrivo = (byte)(yBoard + 2);
+                            mossa.xArrivo = (byte)(xBoard + 1);
+                            if (boardcode[yBoard + 1, xBoard + 2] != 0) mossa.cattura = true;
+                            mosse_pos[indexmossa] = mossa;
+                            indexmossa++;
+                        }
+
+                    }
+                    if (xBoard > 0)
+                    {
+                        if (boardcode[yBoard + 2, xBoard - 1] >= 0)
+                        {
+                            mossa = new MoveCode();
+                            mossa.yPartenza = yBoard;
+                            mossa.xPartenza = xBoard;
+                            mossa.yArrivo = (byte)(yBoard + 2);
+                            mossa.xArrivo = (byte)(xBoard - 1);
+                            if (boardcode[yBoard + 2, xBoard - 1] != 0) mossa.cattura = true;
+                            mosse_pos[indexmossa] = mossa;
+                            indexmossa++;
+                        }
+                    }
+                }
+                if (yBoard > 0)
+                {
+                    if (xBoard < 6)
+                    {
+                        if (boardcode[yBoard - 1, xBoard + 2] >= 0)
+                        {
+                            mossa = new MoveCode();
+                            mossa.yPartenza = yBoard;
+                            mossa.xPartenza = xBoard;
+                            mossa.yArrivo = (byte)(yBoard - 1);
+                            mossa.xArrivo = (byte)(xBoard + 2);
+                            if (boardcode[yBoard - 1, xBoard + 2] != 0) mossa.cattura = true;
+                            mosse_pos[indexmossa] = mossa;
+                            indexmossa++;
+                        }
+
+                    }
+                    if (xBoard > 1)
+                    {
+
+                        if (boardcode[yBoard - 1, xBoard - 2] >= 0)
+                        {
+                            mossa = new MoveCode();
+                            mossa.yPartenza = yBoard;
+                            mossa.xPartenza = xBoard;
+                            mossa.yArrivo = (byte)(yBoard - 1);
+                            mossa.xArrivo = (byte)(xBoard - 2);
+                            if (boardcode[yBoard - 1, xBoard - 2] != 0) mossa.cattura = true;
+                            mosse_pos[indexmossa] = mossa;
+                            indexmossa++;
+                        }
+                    }
+                }
+                if (yBoard > 1)
+                {
+                    if (xBoard < 7)
+                    {
+                        bitboard[yBoard - 2, xBoard + 1]++;
+                        if (boardcode[yBoard - 2, xBoard + 1] >= 0)
+                        {
+                            mossa = new MoveCode();
+                            mossa.yPartenza = yBoard;
+                            mossa.xPartenza = xBoard;
+                            mossa.yArrivo = (byte)(yBoard - 2);
+                            mossa.xArrivo = (byte)(xBoard + 1);
+                            if (boardcode[yBoard - 2, xBoard + 1] != 0) mossa.cattura = true;
+                            mosse_pos[indexmossa] = mossa;
+                            indexmossa++;
+                        }
+                    }
+                    if (xBoard > 0)
+                    {
+                        bitboard[yBoard - 2, xBoard - 1]++;
+                        if (boardcode[yBoard - 2, xBoard - 1] >= 0)
+                        {
+                            mossa = new MoveCode();
+                            mossa.yPartenza = yBoard;
+                            mossa.xPartenza = xBoard;
+                            mossa.yArrivo = (byte)(yBoard - 2);
+                            mossa.xArrivo = (byte)(xBoard - 1);
+                            if (boardcode[yBoard - 2, xBoard - 1] != 0) mossa.cattura = true;
+                            mosse_pos[indexmossa] = mossa;
+                            indexmossa++;
+                        }
+                    }
+                }
+            }
+
+        }
+
+        public void PawnMoveReal(byte yBoard, byte xBoard, bool iswhite)
+        {
+            MoveCode mossa;
+            if (iswhite)
+            {
+                if (yBoard == 6)
+                {
+                    if (boardcode[yBoard - 1, xBoard] == 0 && boardcode[yBoard - 2, xBoard] == 0)
+                    {
+                        mossa = new MoveCode();
+                        mossa.yPartenza = yBoard;
+                        mossa.xPartenza = xBoard;
+                        mossa.yArrivo = (byte)(yBoard - 2);
+                        mossa.xArrivo = xBoard;
+                        mosse_pos[indexmossa] = mossa;
+                        indexmossa++;
+                    }
+                }
+                if (boardcode[yBoard - 1, xBoard] == 0)
+                {
+                    mossa = new MoveCode();
+                    mossa.yPartenza = yBoard;
+                    mossa.xPartenza = xBoard;
+                    mossa.yArrivo = (byte)(yBoard - 1);
+                    mossa.xArrivo = xBoard;
+                    if (yBoard == 1)
+                    {
+                        mossa.promozione = 1;
+                        mosse_pos[indexmossa] = mossa;
+                        indexmossa++;
+                        mossa.promozione = 2;
+                        mosse_pos[indexmossa] = mossa;
+                        indexmossa++;
+                        mossa.promozione = 3;
+                        mosse_pos[indexmossa] = mossa;
+                        indexmossa++;
+                        mossa.promozione = 4;
+                        mosse_pos[indexmossa] = mossa;
+                        indexmossa++;
+                    }
+                    else
+                    {
+                        mosse_pos[indexmossa] = mossa;
+                        indexmossa++;
+                    }
+                }
+
+                if (xBoard > 0)
+                {
+                    if (boardcode[yBoard - 1, xBoard - 1] < 0)
+                    {
+                        mossa = new MoveCode();
+                        mossa.yPartenza = yBoard;
+                        mossa.xPartenza = xBoard;
+                        mossa.yArrivo = (byte)(yBoard - 1);
+                        mossa.xArrivo = (byte)(xBoard - 1);
+                        mossa.cattura = true;
+
+                        if (yBoard == 1)
+                        {
+                            mossa.promozione = 1;
+                            mosse_pos[indexmossa] = mossa;
+                            indexmossa++;
+                            mossa.promozione = 2;
+                            mosse_pos[indexmossa] = mossa;
+                            indexmossa++;
+                            mossa.promozione = 3;
+                            mosse_pos[indexmossa] = mossa;
+                            indexmossa++;
+                            mossa.promozione = 4;
+                            mosse_pos[indexmossa] = mossa;
+                            indexmossa++;
+                        }
+                        else
+                        {
+                            mosse_pos[indexmossa] = mossa;
+                            indexmossa++;
+                        }
+                    }
+                }
+                if (xBoard < 7)
+                {
+
+                    if (boardcode[yBoard - 1, xBoard + 1] < 0)
+                    {
+                        mossa = new MoveCode();
+                        mossa.yPartenza = yBoard;
+                        mossa.xPartenza = xBoard;
+                        mossa.yArrivo = (byte)(yBoard - 1);
+                        mossa.xArrivo = (byte)(xBoard + 1);
+                        mossa.cattura = true;
+
+                        if (yBoard == 1)
+                        {
+                            mossa.promozione = 1;
+                            mosse_pos[indexmossa] = mossa;
+                            indexmossa++;
+                            mossa.promozione = 2;
+                            mosse_pos[indexmossa] = mossa;
+                            indexmossa++;
+                            mossa.promozione = 3;
+                            mosse_pos[indexmossa] = mossa;
+                            indexmossa++;
+                            mossa.promozione = 4;
+                            mosse_pos[indexmossa] = mossa;
+                            indexmossa++;
+                        }
+                        else
+                        {
+                            mosse_pos[indexmossa] = mossa;
+                            indexmossa++;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                if (yBoard == 1)
+                {
+                    if (boardcode[yBoard + 1, xBoard] == 0 && boardcode[yBoard + 2, xBoard] == 0)
+                    {
+                        mossa = new MoveCode();
+                        mossa.yPartenza = yBoard;
+                        mossa.xPartenza = xBoard;
+                        mossa.yArrivo = (byte)(yBoard + 2);
+                        mossa.xArrivo = xBoard;
+                        mosse_pos[indexmossa] = mossa;
+                        indexmossa++;
+                    }
+                }
+                if (boardcode[yBoard + 1, xBoard] == 0)
+                {
+                    mossa = new MoveCode();
+                    mossa.yPartenza = yBoard;
+                    mossa.xPartenza = xBoard;
+                    mossa.yArrivo = (byte)(yBoard + 1);
+                    mossa.xArrivo = xBoard;
+                    if (yBoard == 6)
+                    {
+                        mossa.promozione = -1;
+                        mosse_pos[indexmossa] = mossa;
+                        indexmossa++;
+                        mossa.promozione = -2;
+                        mosse_pos[indexmossa] = mossa;
+                        indexmossa++;
+                        mossa.promozione = -3;
+                        mosse_pos[indexmossa] = mossa;
+                        indexmossa++;
+                        mossa.promozione = -4;
+                        mosse_pos[indexmossa] = mossa;
+                        indexmossa++;
+                    }
+                    else
+                    {
+                        mosse_pos[indexmossa] = mossa;
+                        indexmossa++;
+                    }
+                }
+
+                if (xBoard > 0)
+                {
+                    if (boardcode[yBoard + 1, xBoard - 1] > 0)
+                    {
+                        mossa = new MoveCode();
+                        mossa.yPartenza = yBoard;
+                        mossa.xPartenza = xBoard;
+                        mossa.yArrivo = (byte)(yBoard + 1);
+                        mossa.xArrivo = (byte)(xBoard - 1);
+                        mossa.cattura = true;
+
+                        if (yBoard == 6)
+                        {
+                            mossa.promozione = -1;
+                            mosse_pos[indexmossa] = mossa;
+                            indexmossa++;
+                            mossa.promozione = -2;
+                            mosse_pos[indexmossa] = mossa;
+                            indexmossa++;
+                            mossa.promozione = -3;
+                            mosse_pos[indexmossa] = mossa;
+                            indexmossa++;
+                            mossa.promozione = -4;
+                            mosse_pos[indexmossa] = mossa;
+                            indexmossa++;
+                        }
+                        else
+                        {
+                            mosse_pos[indexmossa] = mossa;
+                            indexmossa++;
+                        }
+                    }
+                }
+                if (xBoard < 7)
+                {
+
+                    if (boardcode[yBoard + 1, xBoard + 1] < 0)
+                    {
+                        mossa = new MoveCode();
+                        mossa.yPartenza = yBoard;
+                        mossa.xPartenza = xBoard;
+                        mossa.yArrivo = (byte)(yBoard + 1);
+                        mossa.xArrivo = (byte)(xBoard + 1);
+                        mossa.cattura = true;
+
+                        if (yBoard == 6)
+                        {
+                            mossa.promozione = -1;
+                            mosse_pos[indexmossa] = mossa;
+                            indexmossa++;
+                            mossa.promozione = -2;
+                            mosse_pos[indexmossa] = mossa;
+                            indexmossa++;
+                            mossa.promozione = -3;
+                            mosse_pos[indexmossa] = mossa;
+                            indexmossa++;
+                            mossa.promozione = -4;
+                            mosse_pos[indexmossa] = mossa;
+                            indexmossa++;
+                        }
+                        else
+                        {
+                            mosse_pos[indexmossa] = mossa;
+                            indexmossa++;
+                        }
+                    }
                 }
             }
         }
@@ -822,7 +1504,7 @@ namespace ChessApp_3._0
             GenerazioneMosse(wich_color);
             bool isthere = false;
             for (int h = 0; h < indexmossa + 1; h++)
-                if (mosse[h].xPartenza == sasso.xPartenza && mosse[h].yPartenza == sasso.yPartenza && mosse[h].xArrivo == sasso.xArrivo && mosse[h].yArrivo == sasso.yArrivo)
+                if (mosse_pos[h].xPartenza == sasso.xPartenza && mosse_pos[h].yPartenza == sasso.yPartenza && mosse_pos[h].xArrivo == sasso.xArrivo && mosse_pos[h].yArrivo == sasso.yArrivo)
                 {
                     isthere = true;
                     break;

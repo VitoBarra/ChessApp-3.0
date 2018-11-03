@@ -25,13 +25,13 @@ namespace ChessApp_3._0
         {
             DimentionSquareTextBox.Text = Global.Conf.AppSettings.Settings["Dimension"].Value;
             #region ComboBox Selected
-            if (Global.Conf.AppSettings.Settings["GameMode"].Value == "\\Player_vs_Player.py")
+            if (Global.Conf.AppSettings.Settings["GameMode"].Value == "1")
                 GameModeComboBox.SelectedIndex = 0;
-            else if (Global.Conf.AppSettings.Settings["GameMode"].Value == "\\Play_With_White.py")
+            else if (Global.Conf.AppSettings.Settings["GameMode"].Value == "2")
                 GameModeComboBox.SelectedIndex = 1;
-            else if (Global.Conf.AppSettings.Settings["GameMode"].Value == "\\Play_With_Black.py")
+            else if (Global.Conf.AppSettings.Settings["GameMode"].Value == "3")
                 GameModeComboBox.SelectedIndex = 2;
-            else if (Global.Conf.AppSettings.Settings["GameMode"].Value == "\\Ai_vs_Ai.py")
+            else if (Global.Conf.AppSettings.Settings["GameMode"].Value == "4")
                 GameModeComboBox.SelectedIndex = 3;
 
             if (Global.Conf.AppSettings.Settings["DifficultyWhiteAi"].Value == "2")
@@ -55,7 +55,6 @@ namespace ChessApp_3._0
             if (Global.Conf.AppSettings.Settings["ThemeW"].Value == "#ffe6ee" && Global.Conf.AppSettings.Settings["ThemeB"].Value == "#ff6699")
                 ThemeComboBox.SelectedIndex = 2;
             #endregion
-            //PythonPathTextBox.Text = Global.Conf.AppSettings.Settings["PythonPath"].Value;
         }
 
         #region Button
@@ -76,7 +75,7 @@ namespace ChessApp_3._0
             {
                 Global.width_Height = int.Parse(DimentionSquareTextBox.Text);
                 Global.Conf.AppSettings.Settings["Dimension"].Value = DimentionSquareTextBox.Text;
-                Global.Conf.Save();
+                Global.Conf.Save(ConfigurationSaveMode.Minimal);
             }
         }
 
@@ -91,25 +90,23 @@ namespace ChessApp_3._0
             if (GameModeComboBox.SelectedIndex == 0)
             {
                 DifficultyWCombo.Hide(); DifficultyBCombo.Hide();
-                Global.Conf.AppSettings.Settings["GameMode"].Value = "\\Player_vs_Player.py";
+                Global.Conf.AppSettings.Settings["GameMode"].Value = "1";
             }
             else if (GameModeComboBox.SelectedIndex == 1)
             {
                 DifficultyWCombo.Hide(); DifficultyBCombo.Show();
-                Global.Conf.AppSettings.Settings["GameMode"].Value = "\\Play_With_White.py";
+                Global.Conf.AppSettings.Settings["GameMode"].Value = "2";
             }
             else if (GameModeComboBox.SelectedIndex == 2)
             {
                 DifficultyWCombo.Show(); DifficultyBCombo.Hide();
-                Global.Conf.AppSettings.Settings["GameMode"].Value = "\\Play_With_Black.py";
+                Global.Conf.AppSettings.Settings["GameMode"].Value = "3";
             }
             else if (GameModeComboBox.SelectedIndex == 3)
             {
                 DifficultyWCombo.Show(); DifficultyBCombo.Show();
-                Global.Conf.AppSettings.Settings["GameMode"].Value = "\\Ai_vs_Ai.py";
+                Global.Conf.AppSettings.Settings["GameMode"].Value = "4";
             }
-
-            Global.Conf.Save(ConfigurationSaveMode.Modified);
         }
 
         private void DifficultyWCombo_SelectedIndexChanged(object sender, EventArgs e)
@@ -120,7 +117,6 @@ namespace ChessApp_3._0
                 Global.Conf.AppSettings.Settings["DifficultyWhiteAi"].Value = "3";
             else if (DifficultyWCombo.SelectedIndex == 2)
                 Global.Conf.AppSettings.Settings["DifficultyWhiteAi"].Value = "4";
-            Global.Conf.Save(ConfigurationSaveMode.Modified);
         }
 
         private void DifficultyBcombo_SelectedIndexChanged(object sender, EventArgs e)
@@ -130,8 +126,7 @@ namespace ChessApp_3._0
             else if (DifficultyBCombo.SelectedIndex == 1)
                 Global.Conf.AppSettings.Settings["DifficultyBlackAi"].Value = "3";
             else if (DifficultyBCombo.SelectedIndex == 2)
-                Global.Conf.AppSettings.Settings["DifficultyBlackAi"].Value = "4";
-            Global.Conf.Save(ConfigurationSaveMode.Modified);
+                Global.Conf.AppSettings.Settings["DifficultyBlackAi"].Value = "4";;
         }
 
         private void ThemeComboBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -151,12 +146,6 @@ namespace ChessApp_3._0
                 Global.Conf.AppSettings.Settings["ThemeW"].Value = "#ffe6ee";
                 Global.Conf.AppSettings.Settings["ThemeB"].Value = "#ff6699";
             }
-            Global.Conf.Save(ConfigurationSaveMode.Modified);
-
-
-           // Global.ThemeW = Global.Conf.AppSettings.Settings["ThemeW"].Value;
-            //Global.ThemeB = Global.Conf.AppSettings.Settings["ThemeB"].Value;
-
         }
 
         private void DimentionSquareTextBox_Validating(object sender, CancelEventArgs e)
@@ -172,16 +161,6 @@ namespace ChessApp_3._0
             {
                 e.Cancel = false;
                 error.SetError(DimentionSquareTextBox, null);
-            }
-        }
-
-        private void Browserbutton_Click(object sender, EventArgs e)
-        {
-            FolderBrowserDialog FolderDialog = new FolderBrowserDialog();
-            if (FolderDialog.ShowDialog() == DialogResult.OK)
-            {
-                //PythonPathTextBox.Text = FolderDialog.SelectedPath;
-                Global.Conf.AppSettings.Settings["PythonPath"].Value = FolderDialog.SelectedPath;
             }
         }
     }

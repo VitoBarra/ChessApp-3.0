@@ -21,7 +21,6 @@ namespace ChessApp_3._0
 
         bool clickdStart = false;
         bool clickdReset = false;
-        ChessEngine engine;
         static string chesspath = FindPath() + "\\ChessApp 3.0";
       
 
@@ -190,7 +189,7 @@ namespace ChessApp_3._0
                  {0,0,0,0,0,0,0,0 },
                  {-1,-1,-1,-1,-1,-1,-1,-1 },
                  {-4,-3,-2,-6,-5,-2,-3,-4 } };
-            engine = new ChessEngine(Global.boardCod);
+            Global.engine = new ChessEngine(Global.boardCod);
             //----------------------------------board AREA----------------------------------
 
             for (int i = 0; i < 8; i++)
@@ -416,6 +415,7 @@ namespace ChessApp_3._0
 
     public static class Global
     {
+        public static ChessEngine engine;
         public static int countStr = 0;
         public static Board[,] board;
         public static Configuration Conf;

@@ -236,7 +236,7 @@
             this.Controls.Add(this.ApplicaButton);
             this.Controls.Add(this.OKButton);
             this.Name = "OptionForm";
-            this.Text = "4";
+            this.Text = "Option Form";
             this.Load += new System.EventHandler(this.OptionForm_Load);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);

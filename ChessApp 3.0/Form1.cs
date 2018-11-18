@@ -17,8 +17,6 @@ namespace ChessApp_3._0
 {
     public partial class Form1 : Form
     {
-        //  Thread chessEngine = new Thread(ChessStart);
-
         bool clickdStart = false;
         bool clickdReset = false;
         static string chesspath = FindPath() + "\\ChessApp 3.0";
@@ -41,7 +39,7 @@ namespace ChessApp_3._0
 
 
             tRef = new System.Timers.Timer() { Interval = 400 };
-            tRef.Elapsed += Refras;
+            tRef.Elapsed += RicaricaMoveStoryes;
             tRef.Start();
 
             #endregion
@@ -58,9 +56,9 @@ namespace ChessApp_3._0
             this.Width = Global.width_Height * 8 + 15 + TurnCount.Width + WhiteMove.Width + BlackMove.Width;
             this.Height = Global.width_Height * 8 + Global.width_Height + 39;
 
-
-
             Bildboard();
+            Global.engine = new ChessEngine();
+            RenderPiceOnboard();
         }
 
         private void Start_Click(object sender, EventArgs e)
@@ -83,31 +81,7 @@ namespace ChessApp_3._0
         {
             clickdReset = true;
             clickdStart = false;
-
-            if (Global.Player)
-                Global.boardCod = new int[8, 8]
-                {
-                 {-4,-3,-2,-6,-5,-2,-3,-4 },
-                 { -1,-1,-1,-1,-1,-1,-1,-1 },
-                 { 0,0,0,0,0,0,0,0 },
-                 { 0,0,0,0,0,0,0,0 },
-                 { 0,0,0,0,0,0,0,0 },
-                 { 0,0,0,0,0,0,0,0 },
-                 { 1,1,1,1,1,1,1,1 },
-                 { 4,3,2,6,5,2,3,4 }
-                };
-            else
-                Global.boardCod = new int[8, 8]
-                 {
-                 {4,3,2,6,5,2,3,4 },
-                 {1,1,1,1,1,1,1,1 },
-                 {0,0,0,0,0,0,0,0 },
-                 {0,0,0,0,0,0,0,0 },
-                 {0,0,0,0,0,0,0,0 },
-                 {0,0,0,0,0,0,0,0 },
-                 {-1,-1,-1,-1,-1,-1,-1,-1 },
-                 {-4,-3,-2,-6,-5,-2,-3,-4 }
-                 };
+            
             RenderPiceOnboard();
             WhiteMove.Controls.Clear();
             BlackMove.Controls.Clear();
@@ -180,16 +154,8 @@ namespace ChessApp_3._0
             int pixelPice = Global.width_Height;
             if (Global.board == null)
                 Global.board = new Board[8, 8];
-            Global.boardCod = new int[8, 8]
-               {{4,3,2,6,5,2,3,4 },
-                 {1,1,1,1,1,1,1,1 },
-                 {0,0,0,0,0,0,0,0 },
-                 {0,0,0,0,0,0,0,0 },
-                 {0,0,0,0,0,0,0,0 },
-                 {0,0,0,0,0,0,0,0 },
-                 {-1,-1,-1,-1,-1,-1,-1,-1 },
-                 {-4,-3,-2,-6,-5,-2,-3,-4 } };
-            Global.engine = new ChessEngine(Global.boardCod);
+     
+            
             //----------------------------------board AREA----------------------------------
 
             for (int i = 0; i < 8; i++)
@@ -219,14 +185,15 @@ namespace ChessApp_3._0
                     }
                 }
 
-            RenderPiceOnboard();
+           // RenderPiceOnboard();
+            
         }
 
         private Bitmap[] LoadSvg()
-        {
+        {//srivere funzione per le icone di selezione
             int count = 0;
-            SvgDocument[] document = new SvgDocument[12];
-            Bitmap[] bp = new Bitmap[12];
+            SvgDocument[] document = new SvgDocument[13];
+            Bitmap[] bp = new Bitmap[13];// sostituire con 12
             string[] Files = Directory.GetFiles("pice");
 
             foreach (string File in Files)
@@ -242,6 +209,9 @@ namespace ChessApp_3._0
 
         public static void RenderPiceOnboard()
         {
+            Global.boardCod = Global.engine.boardcode;
+
+
             for (int i = 0; i < 8; i++)
                 for (int j = 0; j < 8; j++)
                 {
@@ -286,7 +256,7 @@ namespace ChessApp_3._0
 
 
 
-        private void Refras(object sender, System.Timers.ElapsedEventArgs e)
+        private void RicaricaMoveStoryes(object sender, System.Timers.ElapsedEventArgs e)
         {
             if (Global.MoveW != "")
             {
@@ -416,17 +386,18 @@ namespace ChessApp_3._0
     public static class Global
     {
         public static ChessEngine engine;
-        public static int countStr = 0;
         public static Board[,] board;
         public static Configuration Conf;
         public static Bitmap[] SvgBitMap;
-        public static int width_Height = 50;
         public static int[,] boardCod;
+        public static int countStr = 0;
+        public static int width_Height = 50;
         public static bool Player = false;
+        public static string[] movePgn = new string[1000];
+
         public static bool MoveBool = true;
         public static string MoveW = "";
         public static string MoveB = "";
-        public static string[] movePgn = new string[1000];
     }
 }
 

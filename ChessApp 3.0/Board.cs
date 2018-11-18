@@ -59,7 +59,7 @@ namespace ChessApp_3._0
                         Global.boardCod[yPos, xPos] = Global.boardCod[BoardShared.movedY, BoardShared.movedX];
                         Global.boardCod[BoardShared.movedY, BoardShared.movedX] = 0;
                     }
-                    Global.engine.ConvalidateMove(mossaGrafic);
+                    //Global.engine.ConvalidateMove(mossaGrafic);
                 }
                 Form1.RenderPiceOnboard();
             }

@@ -47,7 +47,7 @@ namespace ChessApp_3._0
 
         MoveCode[] mosse_pos;
         int indexmossa = 0;
-
+         
 
 
         public ChessEngine()
@@ -56,7 +56,7 @@ namespace ChessApp_3._0
         }
         public ChessEngine(int[,] _boardcode)
         {
-            //  boardcode = _boardcode;
+            boardcode = _boardcode;
             loadDebug();
         }
 

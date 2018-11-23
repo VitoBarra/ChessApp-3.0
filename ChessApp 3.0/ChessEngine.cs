@@ -138,7 +138,7 @@ namespace ChessApp_3._0
         }
         public ChessEngine(int[,] _boardcode)
         {
-            boardcode = _boardcode;
+            Array.Copy(_boardcode, boardcode, _boardcode.Length);
         }
 
         void Pallino(int x, int y)
@@ -286,11 +286,10 @@ namespace ChessApp_3._0
 
         public int MinMaxTree(bool iswhite, ref int mossa, int depth)
         {
-            int best_evaluation = 0;
-            int[,] _boardcode = boardcode;
+            int best_evaluation = 0 ,dep = 1;
             if (iswhite)
             {
-                if (depth == 1) return Evaluate_Position();
+                if (depth == dep) return Evaluate_Position();
                 int num_mosse = GenerazioneMosse(true);
                 //int best_move;4               
                 best_evaluation = -10001;
@@ -299,7 +298,7 @@ namespace ChessApp_3._0
                 ChessEngine scacchiera_ricorsiva;
                 for (int j = 0; j < num_mosse; j++)
                 {
-                    scacchiera_ricorsiva = new ChessEngine(_boardcode);
+                    scacchiera_ricorsiva = new ChessEngine(boardcode);
                     scacchiera_ricorsiva.Make_move(mosse_pos[j]);
                     actual_evaluation = scacchiera_ricorsiva.MinMaxTree(false, ref useless, depth + 1);
                     if (actual_evaluation > best_evaluation)
@@ -311,7 +310,7 @@ namespace ChessApp_3._0
             }
             else
             {
-                if (depth == 1) return Evaluate_Position();
+                if (depth == dep) return Evaluate_Position();
                 int num_mosse = GenerazioneMosse(false);
                 //int best_move;
                 best_evaluation = 10001;
@@ -320,7 +319,7 @@ namespace ChessApp_3._0
                 ChessEngine scacchiera_ricorsiva;
                 for (int j = 0; j < num_mosse; j++)
                 {
-                    scacchiera_ricorsiva = new ChessEngine(_boardcode);
+                    scacchiera_ricorsiva = new ChessEngine(boardcode);
                     scacchiera_ricorsiva.Make_move(mosse_pos[j]);
                     actual_evaluation = scacchiera_ricorsiva.MinMaxTree(true, ref useless, depth + 1);
                     if (actual_evaluation < best_evaluation)

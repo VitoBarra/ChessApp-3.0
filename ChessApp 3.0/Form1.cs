@@ -71,8 +71,8 @@ namespace ChessApp_3._0
                 }
                 else
                 {
-
-                }
+                    
+                }   
                 clickdStart = true;
             }
         }

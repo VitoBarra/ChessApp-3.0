@@ -286,7 +286,7 @@ namespace ChessApp_3._0
 
         public int MinMaxTree(bool iswhite, ref int mossa, int depth)
         {
-            int best_evaluation = 0 ,dep = 1;
+            int best_evaluation = 0 ,dep = 4;
             if (iswhite)
             {
                 if (depth == dep) return Evaluate_Position();
@@ -359,7 +359,8 @@ namespace ChessApp_3._0
                             case 3: KnightMoveBitBoard(y, x); break;
                             case 2: BishopMoveBitBoard(y, x); break;
                             case 5: QueenMoveBitBoard(y, x); break;
-                            case 6: KingMoveBitBoard(y, x); kingex = x; kingey = y; break;
+                            case 6: KingMoveBitBoard(y, x);  break;
+                            case -6: kingex = x; kingey = y; break;
                         }
                     }
             }
@@ -376,7 +377,8 @@ namespace ChessApp_3._0
                             case -3: KnightMoveBitBoard(y, x); break;
                             case -2: BishopMoveBitBoard(y, x); break;
                             case -5: QueenMoveBitBoard(y, x); break;
-                            case -6: KingMoveBitBoard(y, x); kingex = x; kingey = y; break;
+                            case -6: KingMoveBitBoard(y, x); break;
+                            case 6: kingex = x; kingey = y; break;
                         }
                     }
             }

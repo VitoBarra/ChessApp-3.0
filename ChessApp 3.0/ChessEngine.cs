@@ -10,19 +10,23 @@ using System.Threading.Tasks;
 
 namespace ChessApp_3._0
 {
+
+    public class MoveCode
+    {
+        public byte xPartenza = 8;
+        public byte yPartenza = 8;
+        public byte xArrivo = 8;
+        public byte yArrivo = 8;
+
+        public bool cattura = false;
+        public SByte promozione = 0;
+        public byte arrocco = 0;
+    }
+
+
     public class ChessEngine
     {
-        public class MoveCode
-        {
-            public byte xPartenza = 8;
-            public byte yPartenza = 8;
-            public byte xArrivo = 8;
-            public byte yArrivo = 8;
-
-            public bool cattura = false;
-            public SByte promozione = 0;
-            public byte arrocco = 0;
-        }
+        
 
 
         int[,] pawn_table =
@@ -125,7 +129,7 @@ namespace ChessApp_3._0
             { 0,0,0,0,0,0,0,0 },
             { 0,0,0,0,0,0,0,0 }};
 
-        MoveCode[] mosse_pos;
+        public MoveCode[] mosse_pos;
         int indexmossa = 0;
 
 
@@ -286,7 +290,7 @@ namespace ChessApp_3._0
 
         public int MinMaxTree(bool iswhite, ref int mossa, int depth)
         {
-            int best_evaluation = 0 ,dep = 4;
+            int best_evaluation = 0 ,dep = 2;
             if (iswhite)
             {
                 if (depth == dep) return Evaluate_Position();

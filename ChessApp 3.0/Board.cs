@@ -14,7 +14,7 @@ namespace ChessApp_3._0
     {
         public int xPos;
         public int yPos;
-        ChessEngine.MoveCode mossaGrafic = new ChessEngine.MoveCode();
+        MoveCode move;
 
         public Board()
         {
@@ -37,7 +37,7 @@ namespace ChessApp_3._0
 
         private void Board_MouseClick(object sender, MouseEventArgs e)
         {
-            if (Global.boardCod[yPos, xPos] != 0 || BoardShared.clicked)
+            if (Global.engine.boardcode[yPos, xPos] != 0 || BoardShared.clicked)
             {
                 if (!BoardShared.clicked)
                 {
@@ -48,20 +48,39 @@ namespace ChessApp_3._0
                 }
                 else
                 {
-                    BoardShared.clicked = false;
-                    mossaGrafic.xArrivo = (byte)xPos;
-                    mossaGrafic.yArrivo = (byte)yPos;
-                    mossaGrafic.xPartenza = (byte)BoardShared.movedX;
-                    mossaGrafic.yPartenza = (byte)BoardShared.movedY;
-
+                  
                     if (yPos != BoardShared.movedY || xPos != BoardShared.movedX)
                     {
-                        Global.boardCod[yPos, xPos] = Global.boardCod[BoardShared.movedY, BoardShared.movedX];
-                        Global.boardCod[BoardShared.movedY, BoardShared.movedX] = 0;
+                        BoardShared.clicked = false;
+                        move = new MoveCode();
+                        move.xArrivo = (byte)xPos;
+                        move.yArrivo = (byte)yPos;
+                        move.xPartenza = (byte)BoardShared.movedX;
+                        move.yPartenza = (byte)BoardShared.movedY;
+
+                        Global.engine.Make_move(move);
+                        Form1.RenderPiceOnboard();
+
+                        int a = 0;
+
+                        int eval = Global.engine.MinMaxTree(false, ref a, 0);
+
+                        MessageBox.Show(eval.ToString());
+
+                        Global.engine.Make_move(Global.engine.mosse_pos[a]);
+
+                        Form1.RenderPiceOnboard();
+
+                     //   Global.boardCod[yPos, xPos] = Global.boardCod[BoardShared.movedY, BoardShared.movedX];
+                     //   Global.boardCod[BoardShared.movedY, BoardShared.movedX] = 0;
+                    }
+                    else
+                    {
+                        
                     }
                     //Global.engine.ConvalidateMove(mossaGrafic);
                 }
-                Form1.RenderPiceOnboard();
+                
             }
 
         }

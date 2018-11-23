@@ -209,13 +209,13 @@ namespace ChessApp_3._0
 
         public static void RenderPiceOnboard()
         {
-            Global.boardCod = Global.engine.boardcode;
+           //Global.boardCod = Global.engine.boardcode;
 
 
             for (int i = 0; i < 8; i++)
                 for (int j = 0; j < 8; j++)
                 {
-                    switch (Global.boardCod[i, j])
+                    switch (Global.engine.boardcode[i, j])
                     {
                         case 0: Global.board[i, j].BackgroundImage = null; break;
                         case 1: Global.board[i, j].BackgroundImage = Global.SvgBitMap[7]; break;

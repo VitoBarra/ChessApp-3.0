@@ -61,11 +61,55 @@ namespace ChessApp_3._0
             RenderPiceOnboard();
         }
 
+        int debug_index = 0;
+        bool debug_is_white = false;
+
+
         private void Start_Click(object sender, EventArgs e)
         {
+
+            // debug zone, using this object to test the moves
+            
+            int[,] debug_matrix =  { { 0,0,0,0,0,0,0,0 },
+            { 0,0,0,0,0,0,0,0 },
+            { 0,0,0,0,0,0,0,0 },
+            { 0,0,0,0,0,0,0,0 },
+            { 0,0,0,0,0,0,0,0 },
+            { 0,0,0,0,0,0,0,0 },
+            { 0,0,0,0,0,0,0,0 },
+            { 0,0,0,0,0,0,0,0 }};
+
+
+
+            Global.engine.GenerazioneMosse(debug_is_white);
+
+
+
+
+            if (Global.engine.mosse_pos[debug_index] != null)
+            {
+
+                Array.Copy(Global.engine.boardcode, debug_matrix, Global.engine.boardcode.Length);
+
+                Global.engine.Make_move(Global.engine.mosse_pos[debug_index]);
+
+                Form1.RenderPiceOnboard();
+
+                Array.Copy(debug_matrix, Global.engine.boardcode, Global.engine.boardcode.Length);
+
+               // MessageBox.Show(debug_index.ToString());
+
+                debug_index++;
+            }
+            else
+            {
+                debug_index = 0;
+                MessageBox.Show("Index for color are finished");
+                debug_is_white = !debug_is_white;
+            }
             if (!clickdStart)
             {
-                if (!clickdStart && clickdReset)
+                if (clickdReset)
                 {
                     clickdReset = false;
                 }

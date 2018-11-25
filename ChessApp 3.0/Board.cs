@@ -65,7 +65,7 @@ namespace ChessApp_3._0
 
                         int eval = Global.engine.MinMaxTree(false, ref a, 0);
 
-                        MessageBox.Show(eval.ToString());
+                     //   MessageBox.Show(eval.ToString());
 
                         Global.engine.Make_move(Global.engine.mosse_pos[a]);
 

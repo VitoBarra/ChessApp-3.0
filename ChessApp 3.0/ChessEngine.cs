@@ -158,9 +158,9 @@ namespace ChessApp_3._0
 
             int mossa = 0;
             int babba = MinMaxTree(true, ref mossa, 0);
-            MessageBox.Show(babba.ToString());
-            MessageBox.Show(mossa.ToString());
-            StampaBitBoard();
+          //  MessageBox.Show(babba.ToString());
+           // MessageBox.Show(mossa.ToString());
+           // StampaBitBoard();
         }
 
 
@@ -290,7 +290,7 @@ namespace ChessApp_3._0
 
         public int MinMaxTree(bool iswhite, ref int mossa, int depth)
         {
-            int best_evaluation = 0 ,dep = 2;
+            int best_evaluation = 0 ,dep = 3;
             if (iswhite)
             {
                 if (depth == dep) return Evaluate_Position();
@@ -896,7 +896,7 @@ namespace ChessApp_3._0
                         mossa.xPartenza = xBoard;
                         mossa.yPartenza = yBoard;
                         mossa.xArrivo = (byte)(a);
-                        mossa.yArrivo = xBoard;
+                        mossa.yArrivo = yBoard;
                         mosse_pos[indexmossa] = mossa;
                         indexmossa++;
                         break;
@@ -904,7 +904,7 @@ namespace ChessApp_3._0
                     mossa.xPartenza = xBoard;
                     mossa.yPartenza = yBoard;
                     mossa.xArrivo = (byte)(a);
-                    mossa.yArrivo = xBoard;
+                    mossa.yArrivo = yBoard;
                     mosse_pos[indexmossa] = mossa;
                     indexmossa++;
                 }
@@ -918,7 +918,7 @@ namespace ChessApp_3._0
                         mossa.xPartenza = xBoard;
                         mossa.yPartenza = yBoard;
                         mossa.xArrivo = (byte)(a);
-                        mossa.yArrivo = xBoard;
+                        mossa.yArrivo = yBoard;
                         mosse_pos[indexmossa] = mossa;
                         indexmossa++;
                         break;
@@ -926,7 +926,7 @@ namespace ChessApp_3._0
                     mossa.xPartenza = xBoard;
                     mossa.yPartenza = yBoard;
                     mossa.xArrivo = (byte)(a);
-                    mossa.yArrivo = xBoard;
+                    mossa.yArrivo = yBoard;
                     mosse_pos[indexmossa] = mossa;
                     indexmossa++;
                 }
@@ -987,7 +987,7 @@ namespace ChessApp_3._0
                         mossa.xPartenza = xBoard;
                         mossa.yPartenza = yBoard;
                         mossa.xArrivo = (byte)(a);
-                        mossa.yArrivo = xBoard;
+                        mossa.yArrivo = yBoard;
                         mosse_pos[indexmossa] = mossa;
                         indexmossa++;
                         break;
@@ -995,7 +995,7 @@ namespace ChessApp_3._0
                     mossa.xPartenza = xBoard;
                     mossa.yPartenza = yBoard;
                     mossa.xArrivo = (byte)(a);
-                    mossa.yArrivo = xBoard;
+                    mossa.yArrivo = yBoard;
                     mosse_pos[indexmossa] = mossa;
                     indexmossa++;
                 }
@@ -1009,7 +1009,7 @@ namespace ChessApp_3._0
                         mossa.xPartenza = xBoard;
                         mossa.yPartenza = yBoard;
                         mossa.xArrivo = (byte)(a);
-                        mossa.yArrivo = xBoard;
+                        mossa.yArrivo = yBoard;
                         mosse_pos[indexmossa] = mossa;
                         indexmossa++;
                         break;
@@ -1017,7 +1017,7 @@ namespace ChessApp_3._0
                     mossa.xPartenza = xBoard;
                     mossa.yPartenza = yBoard;
                     mossa.xArrivo = (byte)(a);
-                    mossa.yArrivo = xBoard;
+                    mossa.yArrivo = yBoard;
                     mosse_pos[indexmossa] = mossa;
                     indexmossa++;
                 }
@@ -1653,7 +1653,7 @@ namespace ChessApp_3._0
                 if (xBoard < 7)
                 {
 
-                    if (boardcode[yBoard + 1, xBoard + 1] < 0)
+                    if (boardcode[yBoard + 1, xBoard + 1] > 0)
                     {
                         mossa = new MoveCode();
                         mossa.yPartenza = yBoard;

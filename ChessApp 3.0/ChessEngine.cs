@@ -214,6 +214,12 @@ namespace ChessApp_3._0
                                 case 5: QueenMoveReal(j1, j2, true); break;
                             }
                         }
+
+                    // white castle
+
+
+
+
                 }
 
                 // add castlings

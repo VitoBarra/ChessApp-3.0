@@ -20,7 +20,7 @@ namespace ChessApp_3._0
 
         public bool cattura = false;
         public SByte promozione = 0;
-        public byte arrocco = 0;
+        public byte arrocco = 0; // 1 for long white, 2 for short white, 3 for long black, 4 for short black
     }
 
 
@@ -29,7 +29,7 @@ namespace ChessApp_3._0
         
 
 
-        int[,] pawn_table =
+        static int[,] pawn_table =
          {
             {0, 0, 0, 0, 0, 0, 0, 0 },
             { 50, 50, 50, 50, 50, 50, 50, 50},
@@ -40,7 +40,7 @@ namespace ChessApp_3._0
             { 5, 10, 10, -20, -20, 10, 10, 5 },
             { 0, 0, 0, 0, 0, 0, 0, 0}
         };
-        int[,] knight_table =
+        static int[,] knight_table =
         {
             { -50, -40, -30, -30, -30, -30, -40, -50 },
             {-40, -20, 0, 0, 0, 0, -20, -40},
@@ -51,7 +51,7 @@ namespace ChessApp_3._0
             {-40, -20, 0, 5, 5, 0, -20, -40 },
             { -50, -90, -30, -30, -30, -30, -90, -50}
         };
-        int[,] bishop_table =
+        static int[,] bishop_table =
             {
             { -20, -10, -10, -10, -10, -10, -10, -20 },
                 { -10, 0, 0, 0, 0, 0, 0, -10 },
@@ -62,7 +62,7 @@ namespace ChessApp_3._0
                 { -10, 5, 0, 0, 0, 0, 5, -10 },
                 { -20, -10, -90, -10, -10, -90, -10, -20}
             };
-        int[,] rook_table =
+        static int[,] rook_table =
             {
             { 0, 0, 0, 0, 0, 0, 0, 0 },
             {5, 10, 10, 10, 10, 10, 10, 5 },
@@ -73,7 +73,7 @@ namespace ChessApp_3._0
             {-5, 0, 0, 0, 0, 0, 0, -5 },
             { 0, 0, 0, 5, 5, 0, 0, 0}
             };
-        int[,] queen_table =
+        static int[,] queen_table =
             {
             {-20, -10, -10, -5, -5, -10, -10, -20 },
             { -10, 0, 0, 0, 0, 0, 0, -10},
@@ -84,7 +84,7 @@ namespace ChessApp_3._0
             { -10, 0, 5, 0, 0, 0, 0, -10},
             { -20, -10, -10, 70, -5, -10, -10, -20}
             };
-        int[,] king_table =
+        static int[,] king_table =
             {
             {-30, -40, -40, -50, -50, -40, -40, -30 },
             {-30, -40, -40, -50, -50, -40, -40, -30},
@@ -146,8 +146,8 @@ namespace ChessApp_3._0
 
         public MoveCode[] mosse_pos;
         int indexmossa = 0;
-      
 
+        bool[] castle = new bool[4] { true, true, true, true };
 
 
         public ChessEngine()
@@ -157,6 +157,11 @@ namespace ChessApp_3._0
         public ChessEngine(int[,] _boardcode)
         {
             Array.Copy(_boardcode, boardcode, _boardcode.Length);
+        }
+        public ChessEngine(int[,] _boardcode, bool[] _castle)
+        {
+            Array.Copy(_boardcode, boardcode, _boardcode.Length);
+            Array.Copy(_castle, castle, _castle.Length);
         }
 
         void Pallino(int x, int y)
@@ -200,6 +205,7 @@ namespace ChessApp_3._0
                 }
                 else
                 {
+                    MoveCode mossa_castle;
                     KingMoveReal((byte)(kingy), (byte)(kingx), true);
                     for (byte j1 = 0; j1 < 8; j1++)
                         for (byte j2 = 0; j2 < 8; j2++)
@@ -216,6 +222,20 @@ namespace ChessApp_3._0
                         }
 
                     // white castle
+                    if (castle[0] && boardcode[7, 1] == 0 && boardcode[7, 2] == 0 && boardcode[7, 3] == 0 && bitboard[7, 2] == 0 && bitboard[7, 3] == 0)
+                    {
+                        mossa_castle = new MoveCode();
+                        mossa_castle.arrocco = 1;
+                        mosse_pos[indexmossa] = mossa_castle;
+                        indexmossa++;
+                    }
+                    if (castle[1] && boardcode[7, 5] == 0 && boardcode[7, 6] == 0 && bitboard[7, 5] == 0 && bitboard[7, 6] == 0)
+                    {
+                        mossa_castle = new MoveCode();
+                        mossa_castle.arrocco = 2;
+                        mosse_pos[indexmossa] = mossa_castle;
+                        indexmossa++;
+                    }
 
 
 
@@ -239,6 +259,7 @@ namespace ChessApp_3._0
                 }
                 else
                 {
+                    MoveCode mossa_castle;
                     KingMoveReal((byte)(kingy), (byte)(kingx), false);
                     for (byte j1 = 0; j1 < 8; j1++)
                         for (byte j2 = 0; j2 < 8; j2++)
@@ -253,6 +274,21 @@ namespace ChessApp_3._0
                                 case -5: QueenMoveReal(j1, j2, false); break;
                             }
                         }
+
+                    if (castle[2] && boardcode[0,1] == 0 && boardcode[0,2] == 0 && bitboard[0, 2] == 0 && boardcode[0,3] == 0 && bitboard[0, 3] == 0)
+                    {
+                        mossa_castle = new MoveCode();
+                        mossa_castle.arrocco = 3;
+                        mosse_pos[indexmossa] = mossa_castle;
+                        indexmossa++;
+                    }
+                    if (castle[3] && boardcode[0, 5] == 0 && boardcode[0, 6] == 0 && bitboard[0, 5] == 0 && bitboard[0, 6] == 0)
+                    {
+                        mossa_castle = new MoveCode();
+                        mossa_castle.arrocco = 4;
+                        mosse_pos[indexmossa] = mossa_castle;
+                        indexmossa++;
+                    }
                 }
                 // add castlings
             }
@@ -1810,36 +1846,89 @@ namespace ChessApp_3._0
 
         public void Make_move(MoveCode sasso)
         {
-            //{
-            //    if (sasso.arrocco == 0)
-            //    {
-            //        boardcode[sasso.yArrivo, sasso.xArrivo] = boardcode[sasso.yPartenza, sasso.xPartenza] + sasso.promozione;
-            //        boardcode[sasso.yPartenza, sasso.xPartenza] = 0;
-            //    }
-            boardcode[sasso.yArrivo, sasso.xArrivo] = boardcode[sasso.yPartenza, sasso.xPartenza] + sasso.promozione;
-            boardcode[sasso.yPartenza, sasso.xPartenza] = 0;
+          
+            switch(sasso.arrocco)
+            {
+                case 0:
+                    {
+                        boardcode[sasso.yArrivo, sasso.xArrivo] = boardcode[sasso.yPartenza, sasso.xPartenza] + sasso.promozione;
+                        boardcode[sasso.yPartenza, sasso.xPartenza] = 0;
+
+
+
+
+                        if ((castle[0] || castle[1]) && sasso.yPartenza == 7)
+                        {
+                            switch (sasso.xPartenza)
+                            {
+                                case 4:
+                                    castle[0] = false;
+                                    castle[1] = false;
+                                    break;
+                                case 0:
+                                    castle[0] = false;
+                                    break;
+                                case 7:
+                                    castle[1] = false;
+                                    break;
+                            }
+                        }
+                        else if ((castle[1] || castle[2]) && sasso.yPartenza == 0)
+                        {
+                            switch (sasso.xPartenza)
+                            {
+                                case 4:
+                                    castle[2] = false;
+                                    castle[3] = false;
+                                    break;
+                                case 0:
+                                    castle[2] = false;
+                                    break;
+                                case 7:
+                                    castle[3] = false;
+                                    break;
+                            }
+                        }
+                        break;
+                    }
+                case 1:
+                    boardcode[7, 0] = 0;
+                    boardcode[7, 4] = 0;
+                    boardcode[7, 2] = 6;
+                    boardcode[7, 3] = 4;
+                    castle[0] = false;
+                    castle[1] = false;
+                    break;
+                case 2:
+                    boardcode[7, 7] = 0;
+                    boardcode[7, 4] = 0;
+                    boardcode[7, 6] = 6;
+                    boardcode[7, 5] = 4;
+                    castle[0] = false;
+                    castle[1] = false;
+                    break;
+                case 3:
+                    boardcode[0, 0] = 0;
+                    boardcode[0, 4] = 0;
+                    boardcode[0, 2] = -6;
+                    boardcode[0, 3] = -4;
+                    castle[2] = false;
+                    castle[3] = false;
+                    break;
+                case 4:
+                    boardcode[0, 7] = 0;
+                    boardcode[0, 4] = 0;
+                    boardcode[0, 6] = -6;
+                    boardcode[0, 5] = -4;
+                    castle[2] = false;
+                    castle[3] = false;
+                    break;
+               
+            }
 
         }
 
-        //public void convalidate_move(MoveCode sasso)
-        //{
-        //    bool wich_color;
-        //    if (boardcode[sasso.yPartenza, sasso.xPartenza] > 0) { wich_color = true; }
-        //    else { wich_color = false; }
-
-
-
-        //    GenerazioneMosse(wich_color);
-        //    bool isthere = false;
-        //    for (int h = 0; h < indexmossa + 1; h++)
-        //        if (mosse_pos[h].xPartenza == sasso.xPartenza && mosse_pos[h].yPartenza == sasso.yPartenza && mosse_pos[h].xArrivo == sasso.xArrivo && mosse_pos[h].yArrivo == sasso.yArrivo)
-        //        {
-        //            isthere = true;
-        //            break;
-        //        }
-        //    if (isthere) Make_move(sasso);
-
-        //}
+ 
 
     }
 }

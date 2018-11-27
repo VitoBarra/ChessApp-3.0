@@ -91,15 +91,17 @@ namespace ChessApp_3._0
 
                 Array.Copy(Global.engine.boardcode, debug_matrix, Global.engine.boardcode.Length);
 
-                Global.engine.Make_move(Global.engine.mosse_pos[debug_index]);
+                
 
-                Form1.RenderPiceOnboard();
+                
+                    Global.engine.Make_move(Global.engine.mosse_pos[debug_index]);
 
-                Array.Copy(debug_matrix, Global.engine.boardcode, Global.engine.boardcode.Length);
+                    Form1.RenderPiceOnboard();
 
-               // MessageBox.Show(debug_index.ToString());
+                    Array.Copy(debug_matrix, Global.engine.boardcode, Global.engine.boardcode.Length);
 
                 debug_index++;
+                
             }
             else
             {
@@ -131,12 +133,24 @@ namespace ChessApp_3._0
             BlackMove.Controls.Clear();
             TurnCount.Controls.Clear();
 
-          //  Global.engine.Debug_print_single_bitboard(true);
+            //  Global.engine.Debug_print_single_bitboard(true);
 
-            Global.engine.BitBoardGenerator(true, ref debug_referencex, ref debug_referencey);
-            Global.engine.StampaBitBoard();
-            MessageBox.Show(debug_referencex.ToString());
-            MessageBox.Show(debug_referencey.ToString());
+            //  Global.engine.BitBoardGenerator(true, ref debug_referencex, ref debug_referencey);
+            // Global.engine.StampaBitBoard();
+            //  MessageBox.Show(debug_referencex.ToString());
+            //  MessageBox.Show(debug_referencey.ToString());
+            Global.engine.GenerazioneMosse(true);
+            for (int z = 0; z < 100; z++)
+            {
+                if (Global.engine.mosse_pos[z] == null) break;
+                if (z == 31)
+                {
+                    int debug_var = 0;
+                }
+                MessageBox.Show(Global.engine.mosse_pos[z].arrocco.ToString());           
+
+
+            }
 
         }
 

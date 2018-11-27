@@ -11,16 +11,7 @@ using System.Windows.Forms;
 namespace ChessApp_3._0
 {
     public partial class PromotionPoup : Form
-    {
-
-        public Form1 form1;
-
-       public void GetFormParent(Form1 _form1)
-        {
-            form1 = _form1;
-        }
-  
-
+    { 
 
         public PromotionPoup()
         {
@@ -65,14 +56,36 @@ namespace ChessApp_3._0
             pictureBox4.Location = new Point(offset + Global.width_Height * 3, offset);
         }
 
-        private void splitter3_SplitterMoved(object sender, SplitterEventArgs e)
+        private void pictureBox1_Click(object sender, EventArgs e)
         {
+            if (Global.Player)
+                Global.boardCod[1, 1] = 5;
+            else
+                Global.boardCod[1, 1] = -5;
+        }
 
+        private void pictureBox2_Click(object sender, EventArgs e)
+        {
+            if (Global.Player)
+                Global.boardCod[1, 1] = 4;
+            else
+                Global.boardCod[1, 1] = -4;
+        }
+
+        private void pictureBox3_Click(object sender, EventArgs e)
+        {
+            if (Global.Player)
+                Global.boardCod[1, 1] = 2;
+            else
+                Global.boardCod[1, 1] = -2;
         }
 
         private void pictureBox4_Click(object sender, EventArgs e)
         {
-
+            if (Global.Player)
+                Global.boardCod[1, 1] = 3;
+            else
+                Global.boardCod[1, 1] = -3;
         }
     }
 }

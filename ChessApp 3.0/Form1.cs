@@ -72,13 +72,12 @@ namespace ChessApp_3._0
         private void PromotionPopup()
         {
             pr = new PromotionPoup { StartPosition = FormStartPosition.CenterParent };
-            pr.GetFormParent(this);
             pr.ShowDialog();
-
         }
 
         private void Start_Click(object sender, EventArgs e)
         {
+           
 
             // debug zone, using this object to test the moves
 

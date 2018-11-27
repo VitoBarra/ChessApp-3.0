@@ -450,6 +450,8 @@ namespace ChessApp_3._0
         public static bool MoveBool = true;
         public static string MoveW = "";
         public static string MoveB = "";
+
+        public static int debug_nodes = 0;
     }
 }
 

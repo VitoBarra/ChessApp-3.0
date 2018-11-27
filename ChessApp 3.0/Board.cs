@@ -64,33 +64,21 @@ namespace ChessApp_3._0
 
                         int a = 0;
 
-                        int if_checkmate = Global.engine.MinMaxTree(false, ref a, 0, 1);
-
-                        if (if_checkmate == 10001)
-                        {
-                            MessageBox.Show("Checkmate! \n White wins!");
-                            Global.engine.StampaBitBoard();
-                        }
-                        else if (if_checkmate == -10001)
-                        {
-                            MessageBox.Show("Checkmate! \n Black wins!");
-                            Global.engine.StampaBitBoard();
-                        }
 
 
+                        Global.debug_nodes = 0;
 
+                        int eval = Global.engine.MinMaxTree(false, ref a, 0, 3);
 
-
-                        int eval = Global.engine.MinMaxTree(false, ref a, 0, 4);
 
                         MessageBox.Show(eval.ToString());
+                        MessageBox.Show(Global.debug_nodes.ToString());
 
                         Global.engine.Make_move(Global.engine.mosse_pos[a]);
 
                         Form1.RenderPiceOnboard();
 
-                        if_checkmate = Global.engine.MinMaxTree(true, ref a, 0, 2);
-
+                        int if_checkmate = Global.engine.MinMaxTree(true, ref a, 0, 2);
                         if (if_checkmate == 10001) MessageBox.Show("Checkmate! \n White wins!");
                         else if (if_checkmate == -10001) MessageBox.Show("Checkmate! \n Black wins!");
 

@@ -215,6 +215,8 @@ namespace ChessApp_3._0
                             }
                         }
                 }
+
+                // add castlings
             }
             else
             {
@@ -246,7 +248,7 @@ namespace ChessApp_3._0
                             }
                         }
                 }
-
+                // add castlings
             }
             return indexmossa;
         }
@@ -391,6 +393,9 @@ namespace ChessApp_3._0
 
 
 
+                BitBoardGenerator(true, ref testx, ref testy);
+                if (bitboard[testy, testx] > 0) return 10001;
+
                 int num_mosse = GenerazioneMosse(true);
                 
                 //if (num_mosse == 0) return 0;  // non sicuro di questo ma va aggiunto un controllo stallo
@@ -401,6 +406,7 @@ namespace ChessApp_3._0
                 ChessEngine scacchiera_ricorsiva;
                 for (int j = 0; j < num_mosse; j++)
                 {
+                    Global.debug_nodes++;
                     scacchiera_ricorsiva = new ChessEngine(boardcode);
                     scacchiera_ricorsiva.Make_move(mosse_pos[j]);
                     actual_evaluation = scacchiera_ricorsiva.MinMaxTree(false, ref useless, depth + 1, dep);
@@ -414,7 +420,10 @@ namespace ChessApp_3._0
             else
             {
                 if (depth == dep) return Evaluate_Position();
-   
+
+                BitBoardGenerator(false, ref testx, ref testy);
+                if (bitboard[testy, testx] > 0) return -10001;
+
                 int num_mosse = GenerazioneMosse(false);
                 //int best_move;
                 best_evaluation = 10001;
@@ -423,6 +432,7 @@ namespace ChessApp_3._0
                 ChessEngine scacchiera_ricorsiva;
                 for (int j = 0; j < num_mosse; j++)
                 {
+                    Global.debug_nodes++;
                     scacchiera_ricorsiva = new ChessEngine(boardcode);
                     scacchiera_ricorsiva.Make_move(mosse_pos[j]);
                     actual_evaluation = scacchiera_ricorsiva.MinMaxTree(true, ref useless, depth + 1, dep);

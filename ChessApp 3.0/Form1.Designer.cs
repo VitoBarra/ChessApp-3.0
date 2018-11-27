@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.Start_button = new System.Windows.Forms.Button();
             this.Reset_button = new System.Windows.Forms.Button();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
@@ -109,7 +108,6 @@
             this.PlayerVsPlayerGameMode,
             this.PlayerVsAIGameMode,
             this.AiVsAiGameMode});
-            this.GameMode.Image = ((System.Drawing.Image)(resources.GetObject("GameMode.Image")));
             this.GameMode.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.GameMode.Name = "GameMode";
             this.GameMode.Size = new System.Drawing.Size(82, 22);
@@ -223,7 +221,6 @@
             this.Tool.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.SetPositionTool,
             this.OptionTool});
-            this.Tool.Image = ((System.Drawing.Image)(resources.GetObject("Tool.Image")));
             this.Tool.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.Tool.Name = "Tool";
             this.Tool.Size = new System.Drawing.Size(43, 22);
@@ -347,6 +344,8 @@
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.Reset_button);
             this.Controls.Add(this.Start_button);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
             this.Name = "Form1";
             this.Text = "ChessApp 2.0";
             this.Load += new System.EventHandler(this.Form1_Load);

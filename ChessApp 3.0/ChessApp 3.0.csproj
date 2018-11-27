@@ -73,6 +73,12 @@
       <DependentUpon>OptionForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
+    <Compile Include="PromotionPoup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PromotionPoup.Designer.cs">
+      <DependentUpon>PromotionPoup.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Board.resx">
       <DependentUpon>Board.cs</DependentUpon>
@@ -82,6 +88,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="OptionForm.resx">
       <DependentUpon>OptionForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PromotionPoup.resx">
+      <DependentUpon>PromotionPoup.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

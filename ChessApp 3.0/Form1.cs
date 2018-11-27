@@ -19,6 +19,7 @@ namespace ChessApp_3._0
     {
         bool clickdStart = false;
         bool clickdReset = false;
+        PromotionPoup pr;
         static string chesspath = FindPath() + "\\ChessApp 3.0";
       
 
@@ -47,6 +48,7 @@ namespace ChessApp_3._0
 
         public void Form1_Load(object sender, EventArgs e)
         {
+
             Global.Conf = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
 
             
@@ -59,17 +61,27 @@ namespace ChessApp_3._0
             Bildboard();
             Global.engine = new ChessEngine();
             RenderPiceOnboard();
+
+
+
+
         }
 
         int debug_index = 0;
         bool debug_is_white = false;
+        private void PromotionPopup()
+        {
+            pr = new PromotionPoup { StartPosition = FormStartPosition.CenterParent };
+            pr.GetFormParent(this);
+            pr.ShowDialog();
 
+        }
 
         private void Start_Click(object sender, EventArgs e)
         {
 
             // debug zone, using this object to test the moves
-            
+
             int[,] debug_matrix =  { { 0,0,0,0,0,0,0,0 },
             { 0,0,0,0,0,0,0,0 },
             { 0,0,0,0,0,0,0,0 },
@@ -338,14 +350,6 @@ namespace ChessApp_3._0
                    ));
             }
         }
-
-        public static string ConvertNumberToPgn(string NumMove)
-        {
-            string pgn = "";
-            return pgn;
-        }
-
-
 
         #region ---------------------timer--------------------
 

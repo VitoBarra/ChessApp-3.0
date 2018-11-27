@@ -106,20 +106,35 @@ namespace ChessApp_3._0
         //                      -30, -30, 0, 0, 0, 0, -30, -30,
         //                      -50, -30, -30, -30, -30, -30, -30, -50}
 
+        //public int[,] boardcode { get; } = new int[,]
+        //    {
+        //    { -4,-3,-2,-5,-6,-2,-3,-4 },
+        //    { -1,-1,-1,-1,-1,-1,-1,-1 },
+        //    { 0,0,0,0,0,0,0,0 },
+        //    { 0,0,0,0,0,0,0,0 },
+        //    { 0,0,0,0,0,0,0,0 },
+        //    { 0,0,0,0,0,0,0,0 },
+        //    { 1,1,1,1,1,1,1,1 },
+        //    { 4,3,2,5,6,2,3,4 }
+        //    };
+
+        // debug starting board
+
         public int[,] boardcode { get; } = new int[,]
-            {
-            { -4,-3,-2,-6,-5,-2,-3,-4 },
+       {
+            { -4,0,-2,-5,-6,-2,0,-4 },
             { -1,-1,-1,-1,-1,-1,-1,-1 },
-            { 0,0,0,0,0,0,0,0 },
-            { 0,0,0,0,0,0,0,0 },
-            { 0,0,0,0,0,0,0,0 },
-            { 0,0,0,0,0,0,0,0 },
-            { 1,1,1,1,1,1,1,1 },
-            { 4,3,2,6,5,2,3,4 }
-            };
+            { 0,0,0,0,0,-3,0,0 },
+            { 0,0,0,1,-3,0,0,0 },
+            { 0,0,0,0,1,0,0,0 },
+            { 0,0,3,0,0,0,0,0 },
+            { 1,1,1,0,0,1,1,1 },
+            { 4,0,2,5,6,2,3,4 }
+       };
 
 
-        int[,] bitboard =
+
+        int[,] bitboard = new int[,]
           { { 0,0,0,0,0,0,0,0 },
             { 0,0,0,0,0,0,0,0 },
             { 0,0,0,0,0,0,0,0 },
@@ -131,8 +146,7 @@ namespace ChessApp_3._0
 
         public MoveCode[] mosse_pos;
         int indexmossa = 0;
-
-
+      
 
 
 
@@ -157,10 +171,15 @@ namespace ChessApp_3._0
         {
 
             int mossa = 0;
-            int babba = MinMaxTree(true, ref mossa, 0);
-          //  MessageBox.Show(babba.ToString());
-           // MessageBox.Show(mossa.ToString());
-           // StampaBitBoard();
+            //int babba = MinMaxTree(true, ref mossa, 0, 1);
+            //  MessageBox.Show(babba.ToString());
+            // MessageBox.Show(mossa.ToString());
+            // StampaBitBoard();
+         //   Debug_print_single_bitboard(true);
+
+
+            BitBoardGenerator(true, ref mossa, ref mossa);
+            StampaBitBoard();
         }
 
 
@@ -232,6 +251,77 @@ namespace ChessApp_3._0
             return indexmossa;
         }
 
+        public void Debug_print_single_bitboard(bool iswhite)
+        {
+            for (int y = 0; y < 8; y++)
+                for (int x = 0; x < 8; x++)
+                {
+                    switch (boardcode[y, x])
+                    {
+                        case 0: break;
+                        case 1:
+                            PawnMoveWhiteBitBoard(y, x); StampaBitBoard(); bitboard = new int[,]
+        { { 0,0,0,0,0,0,0,0 },
+            { 0,0,0,0,0,0,0,0 },
+            { 0,0,0,0,0,0,0,0 },
+            { 0,0,0,0,0,0,0,0 },
+            { 0,0,0,0,0,0,0,0 },
+            { 0,0,0,0,0,0,0,0 },
+            { 0,0,0,0,0,0,0,0 },
+            { 0,0,0,0,0,0,0,0 }}; break;
+                        case 4:
+                            RookmMoveBitBoard(y, x); StampaBitBoard(); bitboard = new int[,]
+         { { 0,0,0,0,0,0,0,0 },
+            { 0,0,0,0,0,0,0,0 },
+            { 0,0,0,0,0,0,0,0 },
+            { 0,0,0,0,0,0,0,0 },
+            { 0,0,0,0,0,0,0,0 },
+            { 0,0,0,0,0,0,0,0 },
+            { 0,0,0,0,0,0,0,0 },
+            { 0,0,0,0,0,0,0,0 }}; break;
+                        case 3:
+                            KnightMoveBitBoard(y, x); StampaBitBoard(); bitboard = new int[,]
+         { { 0,0,0,0,0,0,0,0 },
+            { 0,0,0,0,0,0,0,0 },
+            { 0,0,0,0,0,0,0,0 },
+            { 0,0,0,0,0,0,0,0 },
+            { 0,0,0,0,0,0,0,0 },
+            { 0,0,0,0,0,0,0,0 },
+            { 0,0,0,0,0,0,0,0 },
+            { 0,0,0,0,0,0,0,0 }}; break;
+                        case 2:
+                            BishopMoveBitBoard(y, x); StampaBitBoard(); bitboard = new int[,]
+         { { 0,0,0,0,0,0,0,0 },
+            { 0,0,0,0,0,0,0,0 },
+            { 0,0,0,0,0,0,0,0 },
+            { 0,0,0,0,0,0,0,0 },
+            { 0,0,0,0,0,0,0,0 },
+            { 0,0,0,0,0,0,0,0 },
+            { 0,0,0,0,0,0,0,0 },
+            { 0,0,0,0,0,0,0,0 }}; break;
+                        case 5:
+                            QueenMoveBitBoard(y, x); StampaBitBoard(); bitboard = new int[,]
+        { { 0,0,0,0,0,0,0,0 },
+            { 0,0,0,0,0,0,0,0 },
+            { 0,0,0,0,0,0,0,0 },
+            { 0,0,0,0,0,0,0,0 },
+            { 0,0,0,0,0,0,0,0 },
+            { 0,0,0,0,0,0,0,0 },
+            { 0,0,0,0,0,0,0,0 },
+            { 0,0,0,0,0,0,0,0 }}; break;
+                        case 6:
+                            KingMoveBitBoard(y, x); StampaBitBoard(); bitboard = new int[,]
+         { { 0,0,0,0,0,0,0,0 },
+            { 0,0,0,0,0,0,0,0 },
+            { 0,0,0,0,0,0,0,0 },
+            { 0,0,0,0,0,0,0,0 },
+            { 0,0,0,0,0,0,0,0 },
+            { 0,0,0,0,0,0,0,0 },
+            { 0,0,0,0,0,0,0,0 },
+            { 0,0,0,0,0,0,0,0 }}; break;
+                    }
+                }
+        }
 
         public int Evaluate_Position()
         {
@@ -258,7 +348,8 @@ namespace ChessApp_3._0
                 }
             return evaluation;
         }
-#if debug
+
+        #if debug
         public void Countmosse()
         {
             int j = 0;
@@ -270,14 +361,14 @@ namespace ChessApp_3._0
         }
 
         
-        void StampaBitBoard() //debug
+        public void StampaBitBoard() //debug
         {
             string bitboardStr = "";
             for (int y = 0; y < 8; y++)
             {
                 for (int x = 0; x < 8; x++)
                 {
-                    bitboardStr += boardcode[y, x].ToString() + " ";
+                    bitboardStr += bitboard[y, x].ToString() + " ";
                 }
                 bitboardStr += "\n";
             }
@@ -288,13 +379,19 @@ namespace ChessApp_3._0
 
 #endif
 
-        public int MinMaxTree(bool iswhite, ref int mossa, int depth)
+        public int MinMaxTree(bool iswhite, ref int mossa, int depth, int dep)
         {
-            int best_evaluation = 0 ,dep = 3;
+            int best_evaluation = 0;
+            int testx = -1;
+            int testy = -1;
+
             if (iswhite)
             {
                 if (depth == dep) return Evaluate_Position();
+
+
                 int num_mosse = GenerazioneMosse(true);
+                //if (num_mosse == 0) return 0;  // non sicuro di questo ma va aggiunto un controllo stallo
                 //int best_move;4               
                 best_evaluation = -10001;
                 int actual_evaluation;
@@ -304,7 +401,7 @@ namespace ChessApp_3._0
                 {
                     scacchiera_ricorsiva = new ChessEngine(boardcode);
                     scacchiera_ricorsiva.Make_move(mosse_pos[j]);
-                    actual_evaluation = scacchiera_ricorsiva.MinMaxTree(false, ref useless, depth + 1);
+                    actual_evaluation = scacchiera_ricorsiva.MinMaxTree(false, ref useless, depth + 1, dep);
                     if (actual_evaluation > best_evaluation)
                     {
                         best_evaluation = actual_evaluation;
@@ -315,6 +412,7 @@ namespace ChessApp_3._0
             else
             {
                 if (depth == dep) return Evaluate_Position();
+   
                 int num_mosse = GenerazioneMosse(false);
                 //int best_move;
                 best_evaluation = 10001;
@@ -325,7 +423,7 @@ namespace ChessApp_3._0
                 {
                     scacchiera_ricorsiva = new ChessEngine(boardcode);
                     scacchiera_ricorsiva.Make_move(mosse_pos[j]);
-                    actual_evaluation = scacchiera_ricorsiva.MinMaxTree(true, ref useless, depth + 1);
+                    actual_evaluation = scacchiera_ricorsiva.MinMaxTree(true, ref useless, depth + 1, dep);
                     if (actual_evaluation < best_evaluation)
                     {
                         best_evaluation = actual_evaluation;
@@ -338,6 +436,9 @@ namespace ChessApp_3._0
 
 
         }
+
+
+
         public void BitBoardGenerator(bool iswhite, ref int kingex, ref int kingey)
         {
             bitboard = new int[,]

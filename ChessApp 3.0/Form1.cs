@@ -125,11 +125,17 @@ namespace ChessApp_3._0
         {
             clickdReset = true;
             clickdStart = false;
-            
+            int debug_reference = 0;
             RenderPiceOnboard();
             WhiteMove.Controls.Clear();
             BlackMove.Controls.Clear();
             TurnCount.Controls.Clear();
+
+          //  Global.engine.Debug_print_single_bitboard(true);
+
+            Global.engine.BitBoardGenerator(true, ref debug_reference, ref debug_reference);
+            Global.engine.StampaBitBoard();
+
         }
 
         #region -------------ToolStrip item function-------------

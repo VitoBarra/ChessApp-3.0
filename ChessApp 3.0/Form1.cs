@@ -125,7 +125,7 @@ namespace ChessApp_3._0
         {
             clickdReset = true;
             clickdStart = false;
-            int debug_reference = 0;
+            int debug_referencex = 0, debug_referencey = 0;
             RenderPiceOnboard();
             WhiteMove.Controls.Clear();
             BlackMove.Controls.Clear();
@@ -133,8 +133,10 @@ namespace ChessApp_3._0
 
           //  Global.engine.Debug_print_single_bitboard(true);
 
-            Global.engine.BitBoardGenerator(true, ref debug_reference, ref debug_reference);
+            Global.engine.BitBoardGenerator(true, ref debug_referencex, ref debug_referencey);
             Global.engine.StampaBitBoard();
+            MessageBox.Show(debug_referencex.ToString());
+            MessageBox.Show(debug_referencey.ToString());
 
         }
 

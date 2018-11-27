@@ -390,9 +390,11 @@ namespace ChessApp_3._0
                 if (depth == dep) return Evaluate_Position();
 
 
+
                 int num_mosse = GenerazioneMosse(true);
+                
                 //if (num_mosse == 0) return 0;  // non sicuro di questo ma va aggiunto un controllo stallo
-                //int best_move;4               
+                
                 best_evaluation = -10001;
                 int actual_evaluation;
                 int useless = 0;

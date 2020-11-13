@@ -81,7 +81,8 @@ namespace ChessApp_3._0
 
             // debug zone, using this object to test the moves
 
-            int[,] debug_matrix =  { { 0,0,0,0,0,0,0,0 },
+            int[,] debug_matrix =  
+            { { 0,0,0,0,0,0,0,0 },
             { 0,0,0,0,0,0,0,0 },
             { 0,0,0,0,0,0,0,0 },
             { 0,0,0,0,0,0,0,0 },
